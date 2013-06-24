@@ -1,30 +1,49 @@
 from django.db import models
 
-class Gene(models.Model):
+
+
+class MotifDatabase(models.Model):
     name = models.CharField(max_length=50)
+    url = models.CharField(max_length=50)
+
+
+class Motif(models.Model):
+    source_database = models.ForeignKey(MotifDatabase, related_name='+')
+    name = models.CharField(max_length=50)
+
+
+class PSSM(models.Model):
+    motif = models.ForeignKey(Motif, related_name='+')
+    index = models.IntegerField()
+    a = models.DecimalField(max_digits=8, decimal_places=6)
+    c = models.DecimalField(max_digits=8, decimal_places=6)
+    g = models.DecimalField(max_digits=8, decimal_places=6)
+    t = models.DecimalField(max_digits=8, decimal_places=6)
+
+
+class Gene(models.Model):
+    motifs = models.ManyToManyField(Motif)
+    name = models.IntegerField()
     description = models.CharField(max_length=1000)
     chromosome = models.CharField(max_length=50)
     start_promoter = models.IntegerField()
     stop_promoter = models.IntegerField()
     tss = models.IntegerField()
-    orientation = models.CharField(max_length=10)
+    orientation = models.CharField(max_length=1)
+    
 
-
-# Create your models here.
 class GeneSynonyms(models.Model):
     gene = models.ForeignKey(Gene)
     name = models.CharField(max_length=255)
-
-class Motif(models.Model):
-    name = models.CharField(max_length=50)
-    source_database = models.CharField(max_length=256)
-
-
-class PSSM(models.Model):
-    motif = models.ForeignKey(Motif)
-    index = models.IntegerField()
-    a = models.FloatField()
-    c = models.FloatField()
-    g = models.FloatField()
-    t = models.FloatField()
     
+
+class TFBS(models.Model):
+    gene = models.ForeignKey(Gene)
+    motif = models.ForeignKey(Motif)
+    start = models.IntegerField()
+    stop = models.IntegerField()
+    orientation = models.CharField(max_length=1)
+    p_value = models.DecimalField(max_digits=8, decimal_places=6)
+    match_sequence = models.CharField(max_length=256)
+
+

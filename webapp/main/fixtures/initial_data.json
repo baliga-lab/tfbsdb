@@ -1,0 +1,27 @@
+[
+  {
+    "pk": 1,
+    "model": "main.motifdatabase",
+    "fields": {
+      "name": "JASPAR",
+      "url": "http://jaspar.genereg.net/"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "main.motifdatabase",
+    "fields": {
+      "name": "SELEX",
+      "url": "http://www.ncbi.nlm.nih.gov/pubmed/23332764"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "main.motifdatabase",
+    "fields": {
+      "name": "TRANSFAC",
+      "url": "http://www.gene-regulation.com/pub/databases.html"
+    }
+  }
+]
+
