@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}TFBS - Home{% endblock %}
 {% block content %}
-This is the index page
+<h2>TFBS Database</h2>
+<h3>Stats</h3>
+<div>Number of genes: {{num_genes}}</div>
+<div>Number of motifs: {{num_motifs}}</div>
+<div>Number of TFBS: {{num_tfbs}}</div>
 {% endblock %}

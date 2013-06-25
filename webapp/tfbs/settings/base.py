@@ -1,4 +1,9 @@
 # Django settings for tfbs project.
+from os.path import join, abspath, dirname
+
+here = lambda *x: join(abspath(dirname(__file__)), *x)
+PROJECT_ROOT = here('..', '..')
+root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -67,6 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    root('static'),
 )
 
 # List of finder classes that know how to find static files in

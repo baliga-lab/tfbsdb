@@ -1,7 +1,10 @@
+{% load staticfiles %}
 <!doctype html>
 <html>
   <head>
     <title>{% block title %}TFBS{% endblock %}</title>
+    {% block csscommon %}<link rel="stylesheet" href="{% static "stylesheets/tfbs.css" %}">{% endblock %}
+    {% block jscommon %}<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>{% endblock %}
   </head>
   <body>
     {% block content %}
