@@ -9,7 +9,7 @@ class MotifDatabase(models.Model):
 
 class Motif(models.Model):
     source_database = models.ForeignKey(MotifDatabase, related_name='+')
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, db_index=True)
 
 
 class PSSM(models.Model):
@@ -23,7 +23,7 @@ class PSSM(models.Model):
 
 class Gene(models.Model):
     motifs = models.ManyToManyField(Motif)
-    name = models.IntegerField()
+    name = models.IntegerField(db_index=True)
     description = models.CharField(max_length=1000)
     chromosome = models.CharField(max_length=50)
     start_promoter = models.IntegerField()
@@ -34,7 +34,7 @@ class Gene(models.Model):
 
 class GeneSynonyms(models.Model):
     gene = models.ForeignKey(Gene)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, db_index=True)
     
 
 class TFBS(models.Model):
