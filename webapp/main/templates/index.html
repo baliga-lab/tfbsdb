@@ -1,9 +1,41 @@
 {% extends "base.html" %}
 {% block title %}TFBS - Home{% endblock %}
+{% block head %}{{ block.super }}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#term').autocomplete({
+          source: '/tfcompletions',
+          minLength: 2
+        });
+
+        $('#searchbutton').click(function() {
+          var searchterm = $('#term').val();
+          var stype = $('#stype').val();
+          var url = stype == 'tf' ? '/searchtf' : '/searchgene';
+          $.ajax(url,
+                 {
+                   data: {
+                     term: searchterm
+                   },
+                   success: function(data) {
+                     $('#results').replaceWith(data);
+                   }
+                 });
+          return false;
+        });
+      });
+    </script>{% endblock %}
 {% block content %}
 <h2>TFBS Database</h2>
-<h3>Stats</h3>
-<div>Number of genes: {{num_genes}}</div>
-<div>Number of motifs: {{num_motifs}}</div>
-<div>Number of TFBS: {{num_tfbs}}</div>
+<div class="stat">Number of genes: {{num_genes}}</div>
+<div class="stat">Number of motifs: {{num_motifs}}</div>
+<div class="stat">Number of TFBS: {{num_tfbs}}</div>
+<form>
+  <select id="stype">
+    <option value="tf">TF</option>
+    <option value="gene">Gene</option>
+  </select>
+  <input id="term" type="search"><input id="searchbutton" type="submit" value="Search">
+</form>
+<div id="results">blabla</div>
 {% endblock %}
