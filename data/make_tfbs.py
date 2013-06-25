@@ -5,7 +5,7 @@ import psycopg2
 import os, os.path
 
 
-class MotifInfo:
+class MotifInstance:
     def __init__(self, orientation, location, pvalue, seqmatch):
         self.orientation = orientation
         self.location = location
@@ -26,7 +26,7 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
         comps = value.split('-')
         return (int(comps[0]), int(comps[1]))
 
-    def make_gene(line):
+    def make_hit(line):
         try:
             comps = line.strip().split(',')
             num_motifs = int(comps[3])
@@ -35,39 +35,47 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
             mors = comps[5].split(';')
             mpvals = comps[6].split(';')
             mseqs = comps[7].split(';')
-            
 
             return {
                 'entrezid': int(comps[0]),
                 'promoter': make_range(comps[1]),
                 'chromosome': comps[2],
-                'motif_infos': [MotifInfo(mors[i], mlocs[i], mpvals[i], mseqs[i])
-                                for i in range(num_motifs)]
+                'motif_instances': [MotifInstance(mors[i], mlocs[i],
+                                                  mpvals[i], mseqs[i])
+                                    for i in range(num_motifs)]
                 }
         except:
             print "error in line: '%s'" % line
             raise
         
-    motif_infos = []
+    tfbs = []
+    cursor = conn.cursor()
     for filename in os.listdir(genehitdir):
         motif_name = filename.replace('fullGenome_motifHits_', '').replace(
             '.csv', '')
         #print "motif: ", motif_name
-        if not motif_name in motif_map:
-            print "not found: ", motif_name
-            
-        """
-        with open(os.path.join(genehitdir, filename)) as infile:
-            header = infile.readline()
-            data = [make_gene(line) for line in infile
-                    if len(line.strip()) > 0]
-            if len(data) > 0:
-                motif_infos.extend(data)
-        sys.stdout.write(".")  # indicate progress
-        sys.stdout.flush()
-        """
+        if motif_name in motif_map:
+            print "processing motif: ", motif_name, "..."
+            motif_id = motif_map[motif_name]
+            with open(os.path.join(genehitdir, filename)) as infile:
+                header = infile.readline()
+                for line in infile:
+                    if len(line.strip()) > 0:
+                        hit = make_hit(line)
+                        entrez_id = hit['entrezid']
+                        if entrez_id in gene_map:
+                            gene_id = gene_map[entrez_id]
+                            minstances = hit['motif_instances']
+                            for i in minstances:
+                                cursor.execute("""insert into
+main_tfbs (gene_id, motif_id, start, stop, orientation,
+p_value, match_sequence) values (%s, %s, %s, %s, %s, %s, %s)
+""", (gene_id, motif_id, i.location[0], i.location[1], i.orientation, i.pvalue, i.seqmatch))
+                        else:
+                            print "not found: ", entrez_id
+
     print "\ndone."
-    entrez_ids = set([info['entrezid'] for info in motif_infos])
+    #entrez_ids = set([instance['entrezid'] for instance in tfbs])
 
 
 if __name__ == '__main__':
@@ -87,4 +95,5 @@ if __name__ == '__main__':
                  for id, name in cursor.fetchall()}
 
     process_genehits(conn, args.genehitdir, gene_map, motif_map)
+    conn.commit()
     conn.close()
