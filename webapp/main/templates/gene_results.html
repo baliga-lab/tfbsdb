@@ -1,5 +1,10 @@
 <div id="results">
   {% if gene %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#tfbs').dataTable();
+    });
+  </script>
   <div>Entrez ID: {{gene.name}}</div>
   <div>Description: {{gene.description}}</div>
   <div>Chromosome: {{gene.chromosome}}</div>
@@ -8,6 +13,25 @@
   <div>TSS: {{gene.tss}}</div>
   <div># motifs: {{gene.motifs.count}}</div>
   <div># TFBS: {{gene.tfbs_set.count}}</div>
+  <table id="tfbs">
+    <thead>
+      <tr>
+        <th>Motif</th><th>Strand</th><th>Location</th><th>p-value</th>
+        <th>Match Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tfbs in gene.tfbs_set.all %}
+      <tr>
+        <td>{{tfbs.motif.name}}</td>
+        <td>{{tfbs.orientation}}</td>
+        <td>{{tfbs.start}}-{{tfbs.stop}}</td>
+        <td>{{tfbs.p_value}}</td>
+        <td>{{tfbs.match_sequence}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   {% else %}
   No gene found for '{{searchterm}}'
   {% endif %}

@@ -2,6 +2,9 @@
 <div id="results">
   <script type="text/javascript">
     {{motifs|pssms_to_js}}
+    $(document).ready(function() {
+      $('#genelist').dataTable();
+    });
   </script>
   {{motifs.count}} TF results
   {% for m in motifs %}
@@ -9,7 +12,7 @@
   <div id="canvas_{{forloop.counter0}}"></div>
 
   <h4>TFBS ({{m.tfbs_set.count}} entries)</h4>
-  <table class="datatable">
+  <table id="genelist">
     <thead>
     <tr><th>Entrez Id</th><th>Chromosome</th><th>Start</th><th>Stop</th><th>Strand</th></tr>
     </thead>

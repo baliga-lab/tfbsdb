@@ -7,18 +7,10 @@
 
 body {
     font-family: Helvetica, Arial, sans-serif;
+    font-size: small;
 }
 
 .stat {
     font-size: x-small;
     color: #888888;
-}
-
-.datatable {
-  border: 1px solid black;
-  border-collapse: true;
-}
-
-.datatable th {
-  background-color: #888888;
 }

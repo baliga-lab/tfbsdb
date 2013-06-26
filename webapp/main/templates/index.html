@@ -2,6 +2,9 @@
 {% load staticfiles %}
 {% block title %}TFBS - Home{% endblock %}
 {% block head %}{{ block.super }}
+    <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
+
+    <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
     <script src="{% static "javascripts/isblogo.js" %}"></script>
     <script type="text/javascript">
       function tfAutocomplete() {
