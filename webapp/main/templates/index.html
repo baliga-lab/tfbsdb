@@ -19,7 +19,6 @@
       $(document).ready(function() {
         $('#stype').change(function() {
           var stype = $(this).val();
-          console.debug("stype is now: " + stype);
           if (stype == 'tf') tfAutocomplete();
           else geneAutocomplete();
         });

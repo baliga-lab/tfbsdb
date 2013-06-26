@@ -25,7 +25,8 @@ def search_gene(request):
             genes = Gene.objects.filter(name=entrez_id)
         except:
             genes = Gene.objects.filter(genesynonyms__name=searchterm)
-
+    if genes.count() > 0:
+        gene = genes[0]
     return render_to_response('gene_results.html', locals())
 
 

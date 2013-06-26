@@ -18,8 +18,7 @@ if __name__ == '__main__':
         for line in infile.readlines():
             comps = line.strip().split(',')
             # motif name, entrez id
-            rows.append((comps[0], int(comps[2])))
-    #print(rows)
+            rows.append((comps[0], comps[2]))
     cursor = conn.cursor()
 
     cursor.execute('select id, name from main_gene')

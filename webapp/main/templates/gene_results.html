@@ -1,3 +1,14 @@
 <div id="results">
-  {{genes.count}} Gene results
+  {% if gene %}
+  <div>Entrez ID: {{gene.name}}</div>
+  <div>Description: {{gene.description}}</div>
+  <div>Chromosome: {{gene.chromosome}}</div>
+  <div>Orientation: {{gene.orientation}}</div>
+  <div>Promoter: {{gene.start_promoter}}-{{gene.stop_promoter}}</div>
+  <div>TSS: {{gene.tss}}</div>
+  <div># motifs: {{gene.motifs.count}}</div>
+  <div># TFBS: {{gene.tfbs_set.count}}</div>
+  {% else %}
+  No gene found for '{{searchterm}}'
+  {% endif %}
 </div>
