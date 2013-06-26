@@ -41,7 +41,7 @@ class Gene:
     "pk": %d,
     "model": "main.gene",
     "fields": {
-      "name": %d,
+      "name": "%d",
       "description": "%s",
       "chromosome": "%s",
       "start_promoter": %d,

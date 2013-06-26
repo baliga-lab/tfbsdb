@@ -1,3 +1,29 @@
+{% load view_tags %}
 <div id="results">
+  <script type="text/javascript">
+    {{motifs|pssms_to_js}}
+  </script>
   {{motifs.count}} TF results
+  {% for m in motifs %}
+  <h3>{{m.name}}</h3>
+  <div id="canvas_{{forloop.counter0}}"></div>
+
+  <h4>TFBS ({{m.tfbs_set.count}} entries)</h4>
+  <table class="datatable">
+    <thead>
+    <tr><th>Entrez Id</th><th>Chromosome</th><th>Start</th><th>Stop</th><th>Strand</th></tr>
+    </thead>
+    <tbody>
+    {% for t in m.tfbs_set.all %}
+    <tr>
+      <td>{{t.gene.name}}</td>
+      <td>{{t.gene.chromosome}}</td>
+     <td>{{t.start}}</td>
+      <td>{{t.stop}}</td>
+      <td>{{t.orientation}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endfor %}
 </div>

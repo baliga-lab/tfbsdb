@@ -37,7 +37,7 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
             mseqs = comps[7].split(';')
 
             return {
-                'entrezid': int(comps[0]),
+                'entrezid': comps[0],
                 'promoter': make_range(comps[1]),
                 'chromosome': comps[2],
                 'motif_instances': [MotifInstance(mors[i], mlocs[i],

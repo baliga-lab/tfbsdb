@@ -12,7 +12,7 @@ class Motif(models.Model):
 
 
 class PSSM(models.Model):
-    motif = models.ForeignKey(Motif, related_name='+')
+    motif = models.ForeignKey(Motif)
     index = models.IntegerField()
     a = models.DecimalField(max_digits=8, decimal_places=6)
     c = models.DecimalField(max_digits=8, decimal_places=6)
@@ -22,7 +22,7 @@ class PSSM(models.Model):
 
 class Gene(models.Model):
     motifs = models.ManyToManyField(Motif)
-    name = models.IntegerField(db_index=True)
+    name = models.CharField(max_length=15, db_index=True)
     description = models.CharField(max_length=1000)
     chromosome = models.CharField(max_length=50)
     start_promoter = models.IntegerField()

@@ -13,3 +13,12 @@ body {
     font-size: x-small;
     color: #888888;
 }
+
+.datatable {
+  border: 1px solid black;
+  border-collapse: true;
+}
+
+.datatable th {
+  background-color: #888888;
+}
