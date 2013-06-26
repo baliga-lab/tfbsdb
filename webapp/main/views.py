@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.http import HttpResponse
 from models import *
+import re
 
 def index(request):
     num_genes = Gene.objects.count()
@@ -23,7 +24,7 @@ def search_gene(request):
             entrez_id = int(searchterm)
             genes = Gene.objects.filter(name=entrez_id)
         except:
-            genes = Gene.objects.none()
+            genes = Gene.objects.filter(genesynonyms__name=searchterm)
 
     return render_to_response('gene_results.html', locals())
 
@@ -34,6 +35,21 @@ def tf_completions(request):
     data = [m.name for m in motifs]
     return HttpResponse(simplejson.dumps(data), mimetype='application/json')
 
+# Everything that starts with ENSGxxxx will naturally return tons of results
+# make sure we avoid returning huge lists
+ENSG_PAT = re.compile('^(en?s?g?$)|(ensg\d*$)', re.IGNORECASE)
+
 def gene_completions(request):
-    data = ['g1', 'g2']
+    searchterm = request.GET.get('term', '')
+    try:
+        n = int(searchterm)
+        genes = Gene.objects.filter(name__startswith=searchterm)
+        data = [g.name for g in genes]
+    except:
+        if not ENSG_PAT.match(searchterm) or len(searchterm) > 10:
+            synonyms = GeneSynonyms.objects.filter(name__istartswith=searchterm)
+            data = [s.name for s in synonyms]
+        else:
+            data = []
+    print "# elems: ", len(data)
     return HttpResponse(simplejson.dumps(data), mimetype='application/json')
