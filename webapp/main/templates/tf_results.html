@@ -1,16 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
 {% load view_tags %}
-<div id="results">
-  <script type="text/javascript">
-    {{motifs|pssms_to_js}}
-    $(document).ready(function() {
-      $('#genelist').dataTable();
-    });
-  </script>
+{% block title %}TFBS - View TF{% endblock %}
+{% block head %}{{ block.super }}
+    <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
+
+    <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "javascripts/isblogo.js" %}"></script>
+    <script type="text/javascript">
+      {{motifs|pssms_to_js}}
+      {% if motifs %}
+      $(document).ready(function() {
+        $('#genelist').dataTable();
+      });
+      {% endif %}
+    </script>
+{% endblock %}
+{% block content %}
   {% if tfbs %}
-  <h3>{{tfbs.motif.name}}</h3>
+  <h1>Transcription Factor {{motif.name}}</h1>
+
   <div id="canvas_0"></div>
 
-  <h4>TFBS ({{tfbs.count}} entries)</h4>
+  <div>&nbsp;</div>  
   <table id="genelist">
     <thead>
     <tr><th>Entrez Id</th><th>Chromosome</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
@@ -18,7 +30,7 @@
     <tbody>
     {% for t in tfbs %}
     <tr>
-      <td>{{t.gene__name}}</td>
+      <td><a href="/viewgene/{{t.gene__name}}">{{t.gene__name}}</a></td>
       <td>{{t.gene__chromosome}}</td>
       <td>{{t.gene__start_promoter}}-{{t.gene__stop_promoter}}</td>
       <td>{{t.gene__tss}}</td>
@@ -27,5 +39,7 @@
     {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  No TF found for '{{tfname}}'
   {% endif %}
-</div>
+{% endblock %}

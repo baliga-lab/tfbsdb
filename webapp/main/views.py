@@ -11,11 +11,11 @@ def index(request):
     num_tfbs = TFBS.objects.count()
     return render_to_response('index.html', locals())
 
-def search_tf(request):
-    searchterm = request.GET.get('term', '')
-    if searchterm:
-        motifs = Motif.objects.filter(name=searchterm)
-        m = motifs[0]
+
+def view_tf(request, tfname):
+    motifs = Motif.objects.filter(name=tfname)
+    if len(motifs) > 0:
+        motif = motifs[0]
         tfbs = TFBS.objects.filter(motif__id=1).values(
             'gene__name',
             'gene__chromosome',
@@ -23,19 +23,28 @@ def search_tf(request):
             'gene__stop_promoter',
             'gene__tss').annotate(num_sites=Count('motif'))
     return render_to_response('tf_results.html', locals())
+    
 
-def search_gene(request):
-    searchterm = request.GET.get('term', '')
-    if searchterm:
-        try:
-            entrez_id = int(searchterm)
-            genes = Gene.objects.filter(name=entrez_id)
-        except:
-            genes = Gene.objects.filter(genesynonyms__name=searchterm)
+def search_tf(request):
+    searchterm = request.GET.get('searchterm', '')
+    return view_tf(request, searchterm)
+
+
+def view_gene(request, genename):
+    try:
+        entrez_id = int(genename)
+        genes = Gene.objects.filter(name=entrez_id)
+    except:
+        genes = Gene.objects.filter(genesynonyms__name=genename)
+
     if genes.count() > 0:
         gene = genes[0]
     return render_to_response('gene_results.html', locals())
 
+
+def search_gene(request):
+    searchterm = request.GET.get('searchterm', '')
+    return view_gene(request, searchterm)
 
 def tf_completions(request):
     searchterm = request.GET.get('term', '')

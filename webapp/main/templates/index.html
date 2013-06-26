@@ -2,10 +2,6 @@
 {% load staticfiles %}
 {% block title %}TFBS - Home{% endblock %}
 {% block head %}{{ block.super }}
-    <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
-
-    <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
-    <script src="{% static "javascripts/isblogo.js" %}"></script>
     <script type="text/javascript">
       function tfAutocomplete() {
         $('#term').autocomplete({
@@ -22,25 +18,15 @@
       $(document).ready(function() {
         $('#stype').change(function() {
           var stype = $(this).val();
-          if (stype == 'tf') tfAutocomplete();
-          else geneAutocomplete();
+          if (stype == 'tf') {
+            tfAutocomplete();
+            $('#searchform').attr('action', 'searchtf');
+          } else {
+            geneAutocomplete();
+            $('#searchform').attr('action', 'searchgene');
+          }
         });
         tfAutocomplete();
-        $('#searchbutton').click(function() {
-          var searchterm = $('#term').val();
-          var stype = $('#stype').val();
-          var url = stype == 'tf' ? '/searchtf' : '/searchgene';
-          $.ajax(url,
-                 {
-                   data: {
-                     term: searchterm
-                   },
-                   success: function(data) {
-                     $('#results').replaceWith(data);
-                   }
-                 });
-          return false;
-        });
       });
     </script>{% endblock %}
 {% block content %}
@@ -48,12 +34,12 @@
 <div class="stat">Number of genes: {{num_genes}}</div>
 <div class="stat">Number of motifs: {{num_motifs}}</div>
 <div class="stat">Number of TFBS: {{num_tfbs}}</div>
-<form>
+<form id="searchform" action="searchtf" method="get">
   <select id="stype">
     <option value="tf">TF</option>
     <option value="gene">Gene</option>
   </select>
-  <input id="term" type="search"><input id="searchbutton" type="submit" value="Search">
+  <input id="term" name="searchterm" type="search"><input id="searchbutton" type="submit" value="Search">
 </form>
 <div id="results"></div>
 {% endblock %}

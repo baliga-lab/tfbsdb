@@ -5,6 +5,8 @@ register = template.Library()
 
 @register.filter
 def pssms_to_js(motifs):
+    if len(motifs) == 0:
+        return ""
     result = """$(document).ready(function() {
       var alphabet = ['A', 'G', 'C', 'T'];
       var canvasOptions = {

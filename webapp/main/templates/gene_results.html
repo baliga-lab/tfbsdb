@@ -1,11 +1,23 @@
-<div id="results">
-  {% if gene %}
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#tfbs').dataTable();
-    });
-  </script>
-  <div>Entrez ID: {{gene.name}}</div>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load view_tags %}
+{% block title %}TFBS - View Gene{% endblock %}
+{% block head %}{{ block.super }}
+    <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
+
+    <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "javascripts/isblogo.js" %}"></script>
+    {% if gene %}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#tfbs').dataTable();
+      });
+    </script>
+    {% endif %}
+{% endblock %}
+{% block content %}
+{% if gene %}
+  <h1>Gene Entrez {{gene.name}}</h1>
   <div>Description: {{gene.description}}</div>
   <div>Chromosome: {{gene.chromosome}}</div>
   <div>Orientation: {{gene.orientation}}</div>
@@ -13,6 +25,8 @@
   <div>TSS: {{gene.tss}}</div>
   <div># motifs: {{gene.motifs.count}}</div>
   <div># TFBS: {{gene.tfbs_set.count}}</div>
+
+  <div>&nbsp;</div>
   <table id="tfbs">
     <thead>
       <tr>
@@ -35,5 +49,5 @@
   </table>
   {% else %}
   No gene found for '{{searchterm}}'
-  {% endif %}
-</div>
+{% endif %}
+{% endblock %}
