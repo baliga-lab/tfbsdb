@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.http import HttpResponse
+from django.db.models import Count
 from models import *
 import re
 
@@ -14,7 +15,13 @@ def search_tf(request):
     searchterm = request.GET.get('term', '')
     if searchterm:
         motifs = Motif.objects.filter(name=searchterm)
-    
+        m = motifs[0]
+        tfbs = TFBS.objects.filter(motif__id=1).values(
+            'gene__name',
+            'gene__chromosome',
+            'gene__start_promoter',
+            'gene__stop_promoter',
+            'gene__tss').annotate(num_sites=Count('motif'))
     return render_to_response('tf_results.html', locals())
 
 def search_gene(request):

@@ -23,7 +23,8 @@
     <tbody>
       {% for tfbs in gene.tfbs_set.all %}
       <tr>
-        <td>{{tfbs.motif.name}}</td>
+        <td>{{tfbs.motif.name}}<br>({{tfbs.motif.source_database.name}})
+        </td>
         <td>{{tfbs.orientation}}</td>
         <td>{{tfbs.start}}-{{tfbs.stop}}</td>
         <td>{{tfbs.p_value}}</td>

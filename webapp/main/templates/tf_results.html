@@ -6,27 +6,26 @@
       $('#genelist').dataTable();
     });
   </script>
-  {{motifs.count}} TF results
-  {% for m in motifs %}
-  <h3>{{m.name}}</h3>
-  <div id="canvas_{{forloop.counter0}}"></div>
+  {% if tfbs %}
+  <h3>{{tfbs.motif.name}}</h3>
+  <div id="canvas_0"></div>
 
-  <h4>TFBS ({{m.tfbs_set.count}} entries)</h4>
+  <h4>TFBS ({{tfbs.count}} entries)</h4>
   <table id="genelist">
     <thead>
-    <tr><th>Entrez Id</th><th>Chromosome</th><th>Start</th><th>Stop</th><th>Strand</th></tr>
+    <tr><th>Entrez Id</th><th>Chromosome</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
     </thead>
     <tbody>
-    {% for t in m.tfbs_set.all %}
+    {% for t in tfbs %}
     <tr>
-      <td>{{t.gene.name}}</td>
-      <td>{{t.gene.chromosome}}</td>
-     <td>{{t.start}}</td>
-      <td>{{t.stop}}</td>
-      <td>{{t.orientation}}</td>
+      <td>{{t.gene__name}}</td>
+      <td>{{t.gene__chromosome}}</td>
+      <td>{{t.gene__start_promoter}}-{{t.gene__stop_promoter}}</td>
+      <td>{{t.gene__tss}}</td>
+      <td>{{t.num_sites}}</td>
     </tr>
     {% endfor %}
     </tbody>
   </table>
-  {% endfor %}
+  {% endif %}
 </div>
