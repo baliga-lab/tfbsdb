@@ -31,15 +31,15 @@ if __name__ == '__main__':
                 if len(entrez_id) > 0:
                     ensid = row[0].strip()
                     if len(ensid) > 0:
-                        synonyms[entrez_id].add(ensid)
+                        synonyms[entrez_id].add((ensid, 'ensid'))
 
                     refseq = row[1].strip()
                     if len(refseq) > 0:
-                        synonyms[entrez_id].add(refseq)
+                        synonyms[entrez_id].add((refseq, 'refseq'))
 
                     hgnc = row[4].strip()
                     if len(hgnc) > 0:
-                        synonyms[entrez_id].add(hgnc)
+                        synonyms[entrez_id].add((hgnc, 'hgnc'))
 
             lineno += 1
         print "# entrez ids: ", len(synonyms)
@@ -48,8 +48,8 @@ if __name__ == '__main__':
             if entrez_id in gene_map:
                 for entry in entries:
                     cursor.execute("""insert into
-main_genesynonyms (gene_id, name) values (%s, %s)
-""", (gene_map[entrez_id], entry))
+main_genesynonyms (gene_id, name, synonym_type) values (%s, %s, %s)
+""", (gene_map[entrez_id], entry[0], entry[1]))
         conn.commit()
         conn.close()
         

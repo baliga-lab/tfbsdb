@@ -17,7 +17,7 @@
 {% endblock %}
 {% block content %}
 {% if gene %}
-  <h1>Gene Entrez {{gene.name}}</h1>
+  <h1>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h1>
   <div>Description: {{gene.description}}</div>
   <div>Chromosome: {{gene.chromosome}}</div>
   <div>Orientation: {{gene.orientation}}</div>

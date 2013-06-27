@@ -29,12 +29,16 @@ class Gene(models.Model):
     stop_promoter = models.IntegerField()
     tss = models.IntegerField()
     orientation = models.CharField(max_length=1)
-    
+
+    def hgnc(self):
+        synonyms = self.genesynonyms_set.filter(synonym_type='hgnc')
+        return synonyms[0].name if synonyms.count() > 0 else ''
 
 class GeneSynonyms(models.Model):
     gene = models.ForeignKey(Gene)
     name = models.CharField(max_length=255, db_index=True)
-    
+    synonym_type = models.CharField(max_length=30, db_index=True)
+
 
 class TFBS(models.Model):
     gene = models.ForeignKey(Gene)

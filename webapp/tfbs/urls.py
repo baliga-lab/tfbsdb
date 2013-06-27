@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^tfcompletions$', 'main.views.tf_completions', name='tfcomp'),
     url(r'^genecompletions$', 'main.views.gene_completions', name='genecomp'),
 
+    url(r'^tfgenes_csv/(?P<tfname>.*)$', 'main.views.tfgenes_csv', name='tfgenes_csv'),
 
     # url(r'^tfbs/', include('tfbs.foo.urls')),
 

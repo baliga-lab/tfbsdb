@@ -16,7 +16,7 @@ def view_tf(request, tfname):
     motifs = Motif.objects.filter(name=tfname)
     if len(motifs) > 0:
         motif = motifs[0]
-        tfbs = TFBS.objects.filter(motif__id=1).values(
+        tfbs = TFBS.objects.filter(motif__name=tfname).values(
             'gene__name',
             'gene__chromosome',
             'gene__start_promoter',
@@ -70,3 +70,27 @@ def gene_completions(request):
             data = []
     print "# elems: ", len(data)
     return HttpResponse(simplejson.dumps(data), mimetype='application/json')
+
+def tfgenes_csv(request, tfname):
+    tfbs = TFBS.objects.filter(motif__name=tfname).values(
+        'gene__name',
+        'gene__chromosome',
+        'gene__start_promoter',
+        'gene__stop_promoter',
+        'gene__tss').annotate(num_sites=Count('motif'))
+
+    result = "Entrez Id\tSynonyms\tChromosome\tLocation\tTSS\t# sites\n"
+    for t in tfbs:
+        syns = [s.name for s in
+                GeneSynonyms.objects.filter(gene__name=t['gene__name'])]
+        result += "%s\t%s\t%s\t%d-%d\t%d\t%d\n" % (t['gene__name'],
+                                                   ",".join(syns),
+                                                   t['gene__chromosome'],
+                                                   t['gene__start_promoter'],
+                                                   t['gene__stop_promoter'],
+                                                   t['gene__tss'],
+                                                   t['num_sites'])
+
+    resp = HttpResponse(result, mimetype='application/csv')
+    resp['Content-Disposition'] = 'attachment; filename="%s_genes.tsv"' % tfname
+    return resp
