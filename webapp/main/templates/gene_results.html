@@ -24,9 +24,12 @@
   <div>Promoter: {{gene.start_promoter}}-{{gene.stop_promoter}}</div>
   <div>TSS: {{gene.tss}}</div>
   <div># motifs: {{gene.motifs.count}}</div>
-  <div># TFBS: {{gene.tfbs_set.count}}</div>
 
+  <h2>Transcription Binding Sites</h2>
   <div>&nbsp;</div>
+  <a href="/genetfbs_csv/{{gene.name}}">Download TF Binding Sites</a>
+  <div>&nbsp;</div>
+
   <table id="tfbs">
     <thead>
       <tr>
@@ -41,7 +44,7 @@
         </td>
         <td>{{tfbs.orientation}}</td>
         <td>{{tfbs.start}}-{{tfbs.stop}}</td>
-        <td>{{tfbs.p_value}}</td>
+        <td>{{tfbs.p_value|format_scientific}}</td>
         <td>{{tfbs.match_sequence}}</td>
       </tr>
       {% endfor %}

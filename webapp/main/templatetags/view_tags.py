@@ -37,3 +37,7 @@ def pssms_to_js(motifs):
 def motif_info(motif):
     print "# assoc genes: ", motif.gene_set.count()
     return "info here"
+
+@register.filter
+def format_scientific(d):
+    return "%.2e" % d

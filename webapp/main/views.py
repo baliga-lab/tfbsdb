@@ -19,6 +19,7 @@ def view_tf(request, tfname):
         tfbs = TFBS.objects.filter(motif__name=tfname).values(
             'gene__name',
             'gene__chromosome',
+            'gene__orientation',
             'gene__start_promoter',
             'gene__stop_promoter',
             'gene__tss').annotate(num_sites=Count('motif'))
@@ -75,17 +76,19 @@ def tfgenes_csv(request, tfname):
     tfbs = TFBS.objects.filter(motif__name=tfname).values(
         'gene__name',
         'gene__chromosome',
+        'gene__orientation',
         'gene__start_promoter',
         'gene__stop_promoter',
         'gene__tss').annotate(num_sites=Count('motif'))
 
-    result = "Entrez Id\tSynonyms\tChromosome\tLocation\tTSS\t# sites\n"
+    result = "Entrez Id\tSynonyms\tChromosome\tStrand\tLocation\tTSS\t# sites\n"
     for t in tfbs:
         syns = [s.name for s in
                 GeneSynonyms.objects.filter(gene__name=t['gene__name'])]
         result += "%s\t%s\t%s\t%d-%d\t%d\t%d\n" % (t['gene__name'],
                                                    ",".join(syns),
                                                    t['gene__chromosome'],
+                                                   t['gene__orientation'],
                                                    t['gene__start_promoter'],
                                                    t['gene__stop_promoter'],
                                                    t['gene__tss'],
@@ -93,4 +96,18 @@ def tfgenes_csv(request, tfname):
 
     resp = HttpResponse(result, mimetype='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_genes.tsv"' % tfname
+    return resp
+
+def genetfbs_csv(request, genename):
+    gene = Gene.objects.get(name=genename)
+    result = "Motif\tStrand\tLocation\tp-value\tMatch Sequence\n"
+    rows = ["%s\t%s\t%d-%d\t%f\t%s" % (t.motif.name,
+                                       t.orientation,
+                                       t.start, t.stop,
+                                       t.p_value, t.match_sequence)
+            for t in gene.tfbs_set.all()]
+    result += "\n".join(rows)
+
+    resp = HttpResponse(result, mimetype='application/csv')
+    resp['Content-Disposition'] = 'attachment; filename="%s_tfbs.tsv"' % genename
     return resp
