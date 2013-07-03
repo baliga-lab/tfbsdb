@@ -41,3 +41,14 @@ def motif_info(motif):
 @register.filter
 def format_scientific(d):
     return "%.2e" % d
+
+@register.filter
+def hist_to_js(hist_data):
+    result = """{
+      minValue: %d,
+      maxValue: %d,
+      refValue: %d,
+      values: [%s]
+};""" % (hist_data.minval, hist_data.maxval, hist_data.refval,
+         ', '.join([str(v) for v in hist_data.data]))
+    return mark_safe(result)

@@ -11,8 +11,29 @@ def index(request):
     num_tfbs = TFBS.objects.count()
     return render_to_response('index.html', locals())
 
+class HistogramData:
+    def __init__(self, minval, maxval, refval, data):
+        self.minval = minval
+        self.maxval = maxval
+        self.refval = refval
+        self.data = data
+
 
 def view_tf(request, tfname):
+    def compute_relpos(params):
+        result = []
+        for strand, tss, start, stop in params:
+            middle = (stop - start) / 2
+            if middle > 0:  # start < stop
+                x = start + middle
+            else:           # start > stop
+                x = start - middle
+            if strand == '+':
+                result.append(tss - x)
+            else:
+                result.append(x - tss)
+        return result
+
     motifs = Motif.objects.filter(name=tfname)
     if len(motifs) > 0:
         motif = motifs[0]
@@ -22,7 +43,29 @@ def view_tf(request, tfname):
             'gene__orientation',
             'gene__start_promoter',
             'gene__stop_promoter',
-            'gene__tss').annotate(num_sites=Count('motif'))
+            'gene__tss',
+            'start', 'stop').annotate(num_sites=Count('motif'))
+    num_buckets = 30
+    params = [(t['gene__orientation'], t['gene__tss'],
+               t['start'], t['stop'])
+              for t in tfbs]
+    dists = compute_relpos(params)
+    min_dist = min(dists) if len(dists) > 0 else 0
+    max_dist = max(dists) if len(dists) > 0 else 0
+    """
+    interval = abs(max_dist - min_dist) / num_buckets
+    print "# buckets: ", len(dists), " min: ", min_dist, " max: ", max_dist, ' interval: ', interval
+    # make 30 buckets
+    buckets = [0 for i in range(num_buckets)]
+    bucket_dists = [min_dist + (interval * i) for i in range(num_buckets + 1)]
+    for d in dists:
+        bucket = ((d - min_dist) / interval)
+        if bucket < 0 or bucket > (num_buckets - 1):
+            bucket -= 1
+        buckets[bucket] += 1
+    buckets = zip(bucket_dists, buckets)
+    """
+    histogram_data = HistogramData(min_dist, max_dist, 0, sorted(dists))
     return render_to_response('tf_results.html', locals())
     
 
