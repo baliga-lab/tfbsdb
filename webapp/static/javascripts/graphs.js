@@ -14,10 +14,10 @@ if (!nwpgraphs) {
          height = 200 - margin.top - margin.bottom;
 
          // Generate a histogram using twenty uniformly-spaced bins.
-         var data = d3.layout.histogram().bins(35)(values);
+         var data = d3.layout.histogram().bins(35)(values).reverse();
          var x = d3.scale.linear()
-             .domain([d3.min(data, function(d) { return d.x; }),
-                      d3.max(data, function(d) { return d.x; })])
+             .domain([d3.max(data, function(d) { return d.x; }),
+                      d3.min(data, function(d) { return d.x; })])
              .range([0, width]);
          var y = d3.scale.linear()
              .domain([0, d3.max(data, function(d) { return d.y; })])

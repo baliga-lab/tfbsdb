@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^tfgenes_csv/(?P<tfname>.*)$', 'main.views.tfgenes_csv', name='tfgenes_csv'),
     url(r'^genetfbs_csv/(?P<genename>.*)$', 'main.views.genetfbs_csv', name='genetfbs_csv'),
+    url(r'^jbrowse$', 'main.views.jbrowse', name='jbrowse'),
 
     # url(r'^tfbs/', include('tfbs.foo.urls')),
 
