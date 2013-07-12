@@ -34,17 +34,25 @@ def view_tf(request, tfname):
             else:           # start > stop
                 x = start - middle
             if strand == '+':
-                # result.append(tss - x)
                 dist = (stop_prom - 500) - x
-                if dist < -500:
-                    print "%s (%s) - sp: %d ep: %d x: %d" % (gene_name, strand, start_prom, stop_prom, x)
-                result.append((stop_prom - 500) - x)
+                #if dist < -500:
+                #    print "%s (%s) - sp: %d ep: %d x: %d" % (gene_name, strand, start_prom, stop_prom, x)
+                if dist > 8000:
+                    print "distance > 8000, gene: ", gene_name
+                elif dist < -8000:
+                    print "distance < -8000, gene: ", gene_name
+                else:
+                    result.append((stop_prom - 500) - x)
             else:
-                #result.append(x - tss)
                 dist = x - (start_prom + 500)
-                if dist < -500:
-                    print "%s (%s) - sp: %d ep: %d x: %d" % (gene_name, strand, start_prom, stop_prom, x)
-                result.append(x - (start_prom + 500))
+                #if dist < -500:
+                #    print "%s (%s) - sp: %d ep: %d x: %d" % (gene_name, strand, start_prom, stop_prom, x)
+                if dist > 8000:
+                    print "distance > 8000, gene: ", gene_name
+                elif dist < -8000:
+                    print "distance < -8000, gene: ", gene_name
+                else:
+                    result.append(x - (start_prom + 500))
         return result
 
     motifs = Motif.objects.filter(name=tfname)
@@ -65,7 +73,7 @@ def view_tf(request, tfname):
               for t in tfbs]
     dists = sorted(compute_relpos(params))
     #dists.reverse()
-    print dists
+    #print dists
     min_dist = min(dists) if len(dists) > 0 else 0
     max_dist = max(dists) if len(dists) > 0 else 0
     histogram_data = HistogramData(min_dist, max_dist, 0, dists)

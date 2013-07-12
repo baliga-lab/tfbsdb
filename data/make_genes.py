@@ -66,7 +66,7 @@ class Gene:
                                                                   self.tss())
 
 if __name__ == '__main__':
-    description = """TFBS data convert (c) 2013, Institute for Systems Biology"""
+    description = """make_genes.py (c) 2013, Institute for Systems Biology"""
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--promfile', help='promoter map file',
                         required=True)
