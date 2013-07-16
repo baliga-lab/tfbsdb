@@ -18,7 +18,7 @@ def pssms_to_js(motifs):
     for i, m in enumerate(motifs):
         rows = [("          [%f, %f, %f, %f]" % (row.a, row.g,
                                                  row.c, row.t))
-                for row in m.pssm_set.all()]
+                for row in m.pssm_set.all().order_by('index')]
         result += """
       var pssm_%d = {
         alphabet: alphabet,

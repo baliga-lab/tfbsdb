@@ -3,21 +3,94 @@
 {% load view_tags %}
 {% block title %}TFBS - View Gene{% endblock %}
 {% block head %}{{ block.super }}
-    <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
+  <style>
+    /* main application CSS styles from jbrowse, was in genome.css */
+    @import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
+    @import url("{% static "javascripts/dojo/resources/dojo.css" %}");
+    @import url("{% static "javascripts/dojox/form/resources/UploaderFileList.css" %}");
+    @import url("{% static "javascripts/dojox/grid/resources/tundraGrid.css" %}");
+    @import url("{% static "javascripts/dijit/themes/tundra/layout/AccordionContainer.css" %}");
 
-    <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
-    <script src="{% static "javascripts/isblogo.js" %}"></script>
-    {% if gene %}
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('#tfbs').dataTable();
-      });
+    @import url("{% static "stylesheets/jbrowse/main.css" %}");
+    @import url("{% static "stylesheets/jbrowse/menubar.css" %}");
+    @import url("{% static "stylesheets/jbrowse/icons.css" %}");
+    @import url("{% static "stylesheets/jbrowse/file_dialog.css" %}");
+
+    /* CSS styles for the various types of feature glyphs */
+    @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
+    @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}");
+  </style>
+
+  <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
+  <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
+  <script src="{% static "javascripts/isblogo.js" %}"></script>
+  {% if gene %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#tfbs').dataTable();
+    });
+  </script>
+  {% endif %}
+  <script type="text/javascript" src="{% static "javascripts/dojo/dojo.js" %}" data-dojo-config="async: 1"></script>
+  <script type="text/javascript">
+    window.onerror=function(msg){
+      if (document.body )
+        document.body.setAttribute("JSError",msg);
+      }
+      var JBrowse;
+      require({ baseUrl: '{% static "javascripts" %}',
+                packages: [ 'dojo', 'dijit', 'dojox', 'jszlib',
+                            { name: 'lazyload', main: 'lazyload' },
+                            'dgrid', 'xstyle', 'put-selector',
+                            { name: 'jDataView', location: 'jDataView/src', main: 'jdataview' },
+                            'JBrowse'
+                          ]
+               },
+               ['JBrowse/Browser', 'dojo/io-query'],
+               function (Browser,ioQuery) {
+                 var queryParams = ioQuery.queryToObject( window.location.search.slice(1) );
+                 for (var key in queryParams) {
+                   console.debug('key: ' + key + ' value: ' + queryParams[key]);
+                 }
+                 // queryParams has:
+                 // - loc: override this to: gene.chromosome:gene.start_promoter..gene.stop_promoter
+                 // - tracks
+                 // - highlight            
+                 console.debug('queryParams: ' + queryParams.highlight);
+                 var dataRoot = "{% static "hsa-data" %}";
+                 JBrowse = new Browser({
+                                         containerID: "GenomeBrowser",
+                                         refSeqs: dataRoot + "/seq/refSeqs.json",
+                                         baseUrl: dataRoot + '/',
+                                         include: [
+                                           dataRoot + "/trackList.json"
+                                         ],
+                                         nameUrl: dataRoot + "/names/root.json",
+                                         defaultTracks: "DNA,Annotations,RefSeq",
+                                         queryParams: queryParams,                                         
+                                         location: "{{gene.chromosome}}:{{gene.start_promoter}}..{{gene.stop_promoter}}",
+                                         forceTracks: queryParams.tracks,
+                                         initialHighlight: queryParams.highlight,
+                                         show_nav: queryParams.nav,
+                                         show_tracklist: queryParams.tracklist,
+                                         show_overview: queryParams.overview,
+                                         makeFullViewURL: function( browser ) {
+                                           // the URL for the 'Full view' link
+                                           // in embedded mode should be the current
+                                           // view URL, except with 'nav', 'tracklist',
+                                           // and 'overview' parameters forced to 1.
+                                           return browser.makeCurrentViewURL({ nav: 1, tracklist: 1, overview: 1 });
+                                         },
+                                         updateBrowserURL: true
+                                     });
+        });
     </script>
-    {% endif %}
 {% endblock %}
 {% block content %}
 {% if gene %}
-  <h1>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h1>
+  <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div>
+  <h2>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h2>
+  <br>
   <div>Description: {{gene.description}}</div>
   <div>Chromosome: {{gene.chromosome}}</div>
   <div>Orientation: {{gene.orientation}}</div>

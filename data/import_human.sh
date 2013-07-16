@@ -20,8 +20,9 @@ for f in $SRCDIR/*.fa ; do
   $JBROWSEDIR/bin/prepare-refseqs.pl --fasta $f --out $DESTDIR
 done
 
-echo "Done. Importing GFF for binding sites..."
+echo "Done. Importing GFF for genes and binding sites..."
 
-$JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/tfbs.gff --tracklabel tfbs --out $DESTDIR
+$JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/tfbs.gff --tracklabel TFBS --out $DESTDIR
+$JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/genes.gff --tracklabel Genes --out $DESTDIR
 
 echo "Done."
