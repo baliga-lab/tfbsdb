@@ -103,8 +103,8 @@ def search_gene(request):
 
 def tf_completions(request):
     searchterm = request.GET.get('term', '')
-    motifs = Motif.objects.filter(name__istartswith=searchterm)
-    data = [m.name for m in motifs]
+    data = [t.motif.name
+            for t in TFBS.objects.filter(motif__name__istartswith=searchterm).distinct('motif__name')]
     return HttpResponse(simplejson.dumps(data), mimetype='application/json')
 
 # Everything that starts with ENSGxxxx will naturally return tons of results

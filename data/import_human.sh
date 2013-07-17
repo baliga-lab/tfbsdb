@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # This is a shell script to prepare data for jBrowse
+# TODO: use CSS classes
 
 JBROWSEDIR=/usr/share/nginx/html/jbrowse-human
 DESTDIR=/usr/share/nginx/html/jbrowse-human/hsa-data
@@ -23,6 +24,8 @@ done
 echo "Done. Importing GFF for genes and binding sites..."
 
 $JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/tfbs.gff --tracklabel TFBS --out $DESTDIR
-$JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/genes.gff --tracklabel Genes --out $DESTDIR
+
+#$JBROWSEDIR/bin/flatfile-to-json.pl --gff $SRCDIR/genes.gff --tracklabel Promoters --out $DESTDIR
+$JBROWSEDIR/bin/flatfile-to-json.pl --bed $SRCDIR/genes.bed --tracklabel Promoters --out $DESTDIR
 
 echo "Done."
