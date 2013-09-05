@@ -4,7 +4,7 @@
 
 <code>
 create database tfbs;
-grant all privileges on tfbs to dj_ango;
+grant all privileges on database tfbs to dj_ango;
 </code>
 
 ## Populate
