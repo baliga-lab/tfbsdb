@@ -113,7 +113,7 @@ def has_perm_or_basicauth(perm, realm = ""):
 
 ############################################################3
 
-#@logged_in_or_basicauth()
+@logged_in_or_basicauth()
 def index(request):
     num_genes = Gene.objects.count()
     num_motifs = Motif.objects.count()
