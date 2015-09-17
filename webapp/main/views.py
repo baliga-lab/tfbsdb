@@ -174,11 +174,12 @@ def view_tf(request, tfname):
             'gene__start_promoter',
             'gene__stop_promoter',
             'gene__tss',
+            'gene__hgnc',
             'start', 'stop').annotate(num_sites=Count('motif'))
     else:
         tfbs = []
     num_buckets = 30
-    params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
+    params = [(t['gene__name'], t['gene__hgnc'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
                t['start'], t['stop'])
               for t in tfbs]
