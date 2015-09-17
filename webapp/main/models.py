@@ -48,5 +48,4 @@ class TFBS(models.Model):
     orientation = models.CharField(max_length=1)
     p_value = models.DecimalField(max_digits=8, decimal_places=6)
     match_sequence = models.CharField(max_length=256)
-
-
+    overlap_with_footprints = models.IntegerField()

@@ -6,11 +6,12 @@ import os, os.path
 
 
 class MotifInstance:
-    def __init__(self, orientation, location, pvalue, seqmatch):
+    def __init__(self, orientation, location, pvalue, seqmatch, overlap):
         self.orientation = orientation
         self.location = location
         self.pvalue = float(pvalue)
         self.seqmatch = seqmatch
+        self.overlap = overlap
 
     def __str__(self):
         return "motif(%s, %s, %f %s)" % (self.orientation,
@@ -35,13 +36,15 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
             mors = comps[5].split(';')
             mpvals = comps[6].split(';')
             mseqs = comps[7].split(';')
+            overlaps = map(int, comps[8].split(';'))
 
             return {
                 'entrezid': comps[0],
                 'promoter': make_range(comps[1]),
                 'chromosome': comps[2],
                 'motif_instances': [MotifInstance(mors[i], mlocs[i],
-                                                  mpvals[i], mseqs[i])
+                                                  mpvals[i], mseqs[i],
+                                                  overlaps[i])
                                     for i in range(num_motifs)]
                 }
         except:
@@ -69,8 +72,8 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
                             for i in minstances:
                                 cursor.execute("""insert into
 main_tfbs (gene_id, motif_id, start, stop, orientation,
-p_value, match_sequence) values (%s, %s, %s, %s, %s, %s, %s)
-""", (gene_id, motif_id, i.location[0], i.location[1], i.orientation, i.pvalue, i.seqmatch))
+p_value, match_sequence, overlap_with_footprints) values (%s, %s, %s, %s, %s, %s, %s, %s)
+""", (gene_id, motif_id, i.location[0], i.location[1], i.orientation, i.pvalue, i.seqmatch, i.overlap))
                         else:
                             print "not found: ", entrez_id
 
