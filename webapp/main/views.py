@@ -255,7 +255,7 @@ def tfgenes_csv(request, tfname):
         tss = int(t['gene__tss'])
         num_sites = int(t['num_sites'])
 
-        result += "%s\t%s\t%s\t%s-%s\t%s\t%s\n" % (t['gene__name'],
+        result += "%s\t%s\t%s\t%s\t%s-%s\t%s\t%s\n" % (t['gene__name'],
                                                    ",".join(syns),
                                                    t['gene__chromosome'],
                                                    t['gene__orientation'],
