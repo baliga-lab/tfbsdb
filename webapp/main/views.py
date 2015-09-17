@@ -1,7 +1,7 @@
 import base64
+import json
 
 from django.shortcuts import render_to_response
-from django.utils import simplejson
 from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib.auth import authenticate, login
@@ -214,7 +214,7 @@ def tf_completions(request):
     searchterm = request.GET.get('term', '')
     data = [t.motif.name
             for t in TFBS.objects.filter(motif__name__istartswith=searchterm).distinct('motif__name')]
-    return HttpResponse(simplejson.dumps(data), mimetype='application/json')
+    return HttpResponse(json.dumps(data), mimetype='application/json')
 
 # Everything that starts with ENSGxxxx will naturally return tons of results
 # make sure we avoid returning huge lists
@@ -233,7 +233,7 @@ def gene_completions(request):
         else:
             data = []
     print "# elems: ", len(data)
-    return HttpResponse(simplejson.dumps(data), mimetype='application/json')
+    return HttpResponse(json.dumps(data), mimetype='application/json')
 
 def tfgenes_csv(request, tfname):
     tfbs = TFBS.objects.filter(motif__name=tfname).values(
