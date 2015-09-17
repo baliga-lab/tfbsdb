@@ -175,6 +175,8 @@ def view_tf(request, tfname):
             'gene__stop_promoter',
             'gene__tss',
             'start', 'stop').annotate(num_sites=Count('motif'))
+    else:
+        tfbs = []
     num_buckets = 30
     params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
@@ -214,7 +216,7 @@ def tf_completions(request):
     searchterm = request.GET.get('term', '')
     data = [t.motif.name
             for t in TFBS.objects.filter(motif__name__istartswith=searchterm).distinct('motif__name')]
-    return HttpResponse(json.dumps(data), mimetype='application/json')
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 # Everything that starts with ENSGxxxx will naturally return tons of results
 # make sure we avoid returning huge lists
@@ -233,7 +235,7 @@ def gene_completions(request):
         else:
             data = []
     print "# elems: ", len(data)
-    return HttpResponse(json.dumps(data), mimetype='application/json')
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def tfgenes_csv(request, tfname):
     tfbs = TFBS.objects.filter(motif__name=tfname).values(
@@ -257,7 +259,7 @@ def tfgenes_csv(request, tfname):
                                                    t['gene__tss'],
                                                    t['num_sites'])
 
-    resp = HttpResponse(result, mimetype='application/csv')
+    resp = HttpResponse(result, content_type='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_genes.tsv"' % tfname
     return resp
 
@@ -271,7 +273,7 @@ def genetfbs_csv(request, genename):
             for t in gene.tfbs_set.all()]
     result += "\n".join(rows)
 
-    resp = HttpResponse(result, mimetype='application/csv')
+    resp = HttpResponse(result, content_type='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_tfbs.tsv"' % genename
     return resp
 
