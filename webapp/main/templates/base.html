@@ -9,8 +9,12 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>{% endblock %}
   </head>
   <body>
-      <center><img src="{% static "images/tftg_db.gif" %}"></center>
+      <center><a href='http://tfbsdb.systemsbiology.net'><img src="{% static "images/tftg_db.gif" %}"></a></center>
     {% block content %}
     {% endblock %}
+    <p>Need help? Please contact <span class='afooter_like'>cplaisier(at)systemsbiology.org</span> if you have any questions, comments or concerns.</br>
+                                    Developed at the <a href="http://www.systemsbiology.org" target="_blank"  class="footer">Institute for Systems Biology</a> in the <a href="http://baliga.systemsbiology.net/" target="_blank" class="footer">Baliga Lab</a>.</br>
+                                    <a href="http://www.djangoproject.com/"><img src="/static/images/djangosite80x15_grey.gif" border="0" alt="A Django site." title="A Django site." /></a> &nbsp; <a href="http://www.postgresql.org/"><img src="http://www.postgresql.org/files/community/propaganda/80x16_3.gif" border="0" alt="Powered by PostgreSQL" title="Powered by PostgreSQL" /></a></p>
+    
   </body>
 </html>
