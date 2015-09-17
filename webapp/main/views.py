@@ -255,12 +255,12 @@ def tfgenes_csv(request, tfname):
         tss = int(t['gene__tss'])
         num_sites = int(t['num_sites'])
 
-        result += "%s\t%s\t%s\t%d-%d\t%d\t%d\n" % (t['gene__name'],
+        result += "%s\t%s\t%s\t%s-%s\t%s\t%s\n" % (t['gene__name'],
                                                    ",".join(syns),
                                                    t['gene__chromosome'],
                                                    t['gene__orientation'],
-                                                   prom_start, prom_stop,
-                                                   tss, num_sites)
+                                                   str(prom_start), str(prom_stop),
+                                                   str(tss), str(num_sites))
 
     resp = HttpResponse(result, content_type='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_genes.tsv"' % tfname
