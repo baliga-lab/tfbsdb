@@ -271,7 +271,7 @@ def genetfbs_csv(request, genename):
     result = "Motif\tStrand\tLocation\tp-value\tMatch Sequence\n"
     rows = ["%s\t%s\t%d-%d\t%f\t%s" % (t.motif.name,
                                        t.orientation,
-                                       t.start, t.stop,
+                                       int(t.start), int(t.stop),
                                        t.p_value, t.match_sequence)
             for t in gene.tfbs_set.all()]
     result += "\n".join(rows)
