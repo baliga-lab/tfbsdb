@@ -178,10 +178,14 @@ def view_tf(request, tfname):
     else:
         tfbs = []
     num_buckets = 30
+    tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
+                  t['gene__start_promoter'], t['gene__stop_promoter'],
+                  t['gene__tss'], t['num_sites']) for t in tfbs]
+
     params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
-               t['start'], t['stop'])
-              for t in tfbs]
+               t['start'], t['stop']) for t in tfbs]
+
     dists = sorted(compute_relpos(params))
     #dists.reverse()
     #print dists

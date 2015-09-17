@@ -48,14 +48,14 @@
     <tr><th>Entrez Id</th><th>Chromosome</th><th>Strand</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
     </thead>
     <tbody>
-    {% for t in tfbs %}
+    {% for t in tfbs_data %}
     <tr>
-      <td><a href="/viewgene/{{t.gene__name}}">{{t.gene__name}}</a></td>
-      <td>{{t.gene__chromosome}}</td>
-      <td>{{t.gene__orientation}}</td>
-      <td>{{t.gene__start_promoter}}-{{t.gene__stop_promoter}}</td>
-      <td>{{t.gene__tss}}</td>
-      <td>{{t.num_sites}}</td>
+      <td><a href="/viewgene/{{t.gene__name}}">{{t[0]}}</a></td>
+      <td>{{t[1]}}</td>
+      <td>{{t[2]}}</td>
+      <td>{{t[3]}}-{{t[4]}}</td>
+      <td>{{t[4]}}</td>
+      <td>{{t[6]}}</td>
     </tr>
     {% endfor %}
     </tbody>
