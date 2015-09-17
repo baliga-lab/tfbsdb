@@ -45,13 +45,12 @@
   <div>&nbsp;</div>
   <table id="genelist">
     <thead>
-    <tr><th>Entrez Id</th><th>Synonyms</th><th>Chromosome</th><th>Strand</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
+    <tr><th>Entrez Id</th><th>Chromosome</th><th>Strand</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
     </thead>
     <tbody>
     {% for t in tfbs %}
     <tr>
       <td><a href="/viewgene/{{t.gene__name}}">{{t.gene__name}}</a></td>
-      <td>{{t.gene__hgnc}}</td>
       <td>{{t.gene__chromosome}}</td>
       <td>{{t.gene__orientation}}</td>
       <td>{{t.gene__start_promoter}}-{{t.gene__stop_promoter}}</td>
