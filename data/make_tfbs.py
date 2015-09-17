@@ -66,16 +66,21 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
                     if len(line.strip()) > 0:
                         hit = make_hit(line)
                         entrez_id = hit['entrezid']
-                        if entrez_id in gene_map:
-                            gene_id = gene_map[entrez_id]
-                            minstances = hit['motif_instances']
-                            for i in minstances:
-                                cursor.execute("""insert into
+                        if entrez_id not in gene_map:
+                            print "adding missing gene '%s'" % entrez_id
+                            cursor.execute('insert into main_gene (name,description,chromosome,start_promoter,stop_promoter,tss,orientation) values (%s,%s,%s,%s,%s,%s,%s) returning id',
+                                           [entrez_id, '', hit['chromosome'],
+                                            hit['promoter'][0], hit['promoter'][1],
+                                            0, '+'])
+                            gene_map[entrez_id] = cursor.fetchone()[0]
+
+                        gene_id = gene_map[entrez_id]
+                        minstances = hit['motif_instances']
+                        for i in minstances:
+                            cursor.execute("""insert into
 main_tfbs (gene_id, motif_id, start, stop, orientation,
 p_value, match_sequence, overlap_with_footprints) values (%s, %s, %s, %s, %s, %s, %s, %s)
 """, (gene_id, motif_id, i.location[0], i.location[1], i.orientation, i.pvalue, i.seqmatch, i.overlap))
-                        else:
-                            print "not found: ", entrez_id
 
     print "\ndone."
     #entrez_ids = set([instance['entrezid'] for instance in tfbs])
