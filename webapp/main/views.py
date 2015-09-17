@@ -250,14 +250,17 @@ def tfgenes_csv(request, tfname):
     for t in tfbs:
         syns = [s.name for s in
                 GeneSynonyms.objects.filter(gene__name=t['gene__name'])]
+        prom_start = int(t['gene__start_promoter'])
+        prom_stop = int(t['gene__stop_promoter'])
+        tss = int(t['gene__tss'])
+        num_sites = int(t['num_sites'])
+
         result += "%s\t%s\t%s\t%d-%d\t%d\t%d\n" % (t['gene__name'],
                                                    ",".join(syns),
                                                    t['gene__chromosome'],
                                                    t['gene__orientation'],
-                                                   t['gene__start_promoter'],
-                                                   t['gene__stop_promoter'],
-                                                   t['gene__tss'],
-                                                   t['num_sites'])
+                                                   prom_start, prom_stop,
+                                                   tss, num_sites)
 
     resp = HttpResponse(result, content_type='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_genes.tsv"' % tfname
