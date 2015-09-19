@@ -35,15 +35,14 @@
 {% endblock %}
 {% block content %}
   {% if tfbs %}
-  <table>
-      <tr><td><h1>Transcription Factor</h1></td><td>{{motif.name}}</td></tr>
-      <tr><td><h2>Motif</h2></td><td><div id="canvas_0"></div></td></tr>
-      <tr><td><h2>Histogram (Relative distances to TSS)</h2></td><td><div id="graph_0"></div></td></tr>
-  </table>
+  <h1>Transcription Factor</h1>{{motif.name}}
   <div>&nbsp;</div>
-  <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
+  <h2>Motif</h2></br><div id="canvas_0"></div>
+  <div>&nbsp;</div>
+  <h2>Histogram (Relative distances to TSS)</h2></br><div id="graph_0"></div>
   <div>&nbsp;</div>
   <h2>Target Gene List</h2></br>
+  <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
   <table id="genelist">
     <thead>
     <tr><th>Entrez Id</th><th>Chromosome</th><th>Strand</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
@@ -61,6 +60,7 @@
     {% endfor %}
     </tbody>
   </table>
+  <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
   {% else %}
   No TF found for '{{tfname}}'
   {% endif %}
