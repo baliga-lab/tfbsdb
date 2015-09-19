@@ -351,44 +351,44 @@ a.cite:active {
     border-collapse: collapse;
 }
 a.tab:link {
-    color: #ffff33;
+    color: #ffffff;
     font-weight:bold;
     font-size:110%;
     text-decoration:none;
 }
 a.tab:hover {
-    color: #ffff33;
+    color: #ffffff;
     font-weight:bold;
     font-size:110%;
     text-decoration:underline;
 }
 a.tab:visited {
-    color: #ffff33;
+    color: #ffffff;
     font-weight:bold;
     font-size:110%;
     text-decoration:none;
 }
 a.tab:active {
-    color: #ffff33;
+    color: #ffffff;
     font-weight:bold;
     font-size:110%;
     text-decoration:underline;
 }
 a.footer:link {
     font-weight:bold;
-    color: #ffff33;
+    color: #ffffff;
 }
 a.footer:hover {
     font-weight:bold;
-    color: #ffff33;
+    color: #ffffff;
 }
 a.footer:visited {
     font-weight:bold;
-    color: #ffff33;
+    color: #ffffff;
 }
 a.footer:active {
     font-weight:bold;
-    color: #ffff33;
+    color: #ffffff;
 }
 #header {
 	clear:both;
