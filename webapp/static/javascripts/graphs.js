@@ -10,8 +10,8 @@ if (!nwpgraphs) {
          // A formatter for counts.
          var formatCount = d3.format(",.0f");
          var margin = {top: 10, right: 10, bottom: 30, left: 30},
-         width = 250 - margin.left - margin.right,
-         height = 150 - margin.top - margin.bottom;
+         width = 500 - margin.left - margin.right,
+         height = 200 - margin.top - margin.bottom;
 
          // Generate a histogram using twenty uniformly-spaced bins.
          var data = d3.layout.histogram().bins(35)(values).reverse();
