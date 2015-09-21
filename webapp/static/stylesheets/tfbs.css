@@ -457,7 +457,7 @@ a.footer:active {
 
 .genetable {
     border: 1px solid #660000;
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
 }
 .geneth {
         background-color: #666666;
