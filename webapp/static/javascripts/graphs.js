@@ -48,6 +48,7 @@ if (!nwpgraphs) {
 
          svg.append("g")
              .attr("class", "x axis")
+             .style("font-size", "85%")
              .attr("transform", "translate(0, " + height + ")")
              .call(xAxis);
 
