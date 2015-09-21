@@ -44,8 +44,8 @@ if (!isblogo) {
     };
     DEFAULT_OPTIONS = {
         type: 'canvas',
-        width: 400,
-        height: 300,
+        width: 300,
+        height: 200,
         glyphStyle: '20pt Helvetica'
     };
     MEASURE_CANVAS = document.createElement('canvas');
