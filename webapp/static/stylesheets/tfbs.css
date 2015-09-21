@@ -456,8 +456,7 @@ a.footer:active {
 }
 
 .genetable {
-        border: 1px solid #660000;
-        border-collapse: collapse;
+        /* border-collapse: collapse; */
 }
 .geneth {
         background-color: #666666;
@@ -465,14 +464,11 @@ a.footer:active {
         text-align: center;
         vertical-align: middle;
         padding: 10px;
-        border: 1px solid #660000;
-        border-collapse: collapse;
+        border: 1px solid #ffffff;
 }
 .genetd {
         background-color: #ffffff;
         text-align: center;
         vertical-align: middle;
         border: 1px solid #660000;
-        border-collapse: collapse;
 }
-
