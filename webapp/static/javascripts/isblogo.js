@@ -263,7 +263,7 @@ if (!isblogo) {
         canvas.id = id;
         canvas.setAttribute('width', options.width);
         canvas.setAttribute('height', options.height);
-        canvas.setAttribute('style', 'border: 1px solid black');
+        //canvas.setAttribute('style', 'border: 1px solid black');
         elem = document.getElementById(id);
         elem.parentNode.replaceChild(canvas, elem);
         drawScale(canvas, pssm);
