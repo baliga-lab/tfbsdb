@@ -26,7 +26,8 @@ if (!nwpgraphs) {
          var barWidth = data.length >= 2 ? x(data[1].x) - x(data[0].x) : 5;
          var xAxis = d3.svg.axis()
              .scale(x)
-             .orient("bottom");
+             .orient("bottom")
+             .ticks(5);
          var yAxis = d3.svg.axis()
              .scale(y)
              .orient("left");
@@ -49,7 +50,7 @@ if (!nwpgraphs) {
          svg.append("g")
              .attr("class", "x axis")
              .style("font-size", "85%")
-             .attr("transform", "traslate(0, 5000)") //" + height + ")")
+             .attr("transform", "traslate(0, " + height + ")")
              .call(xAxis);
 
          svg.append("text")      // text label for the x axis
