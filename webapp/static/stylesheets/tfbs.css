@@ -456,18 +456,21 @@ a.footer:active {
 }
 
 .genetable {
-    border: 1px solid #660000;
-    /* border-collapse: collapse; */
+        border: 1px solid #660000;
+        /* border-collapse: collapse; */
 }
 .geneth {
         background-color: #666666;
         color: #ffffff;
         text-align: center;
         vertical-align: middle;
+        padding: 10px;
+        border: 1px solid #660000;
 }
 .genetd {
         background-color: #ffffff;
         text-align: center;
         vertical-align: middle;
+        border: 1px solid #660000;
 }
 
