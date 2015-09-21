@@ -53,7 +53,7 @@ if (!nwpgraphs) {
 
          svg.append("text")      // text label for the x axis
              .attr("x", width / 2 )
-             .attr("y",  height + margin.bottom)
+             .attr("y",  -5 + height + margin.bottom)
              .style("text-anchor", "middle")
              .text("Position Relative to TSS (bp)");
 
@@ -63,7 +63,7 @@ if (!nwpgraphs) {
 
          svg.append("text")
              .attr("transform", "rotate(-90)")
-             .attr("y", -10 - margin.left)
+             .attr("y", -5 - margin.left)
              .attr("x",0 - (height / 2))
              .attr("dy", "1em")
              .style("text-anchor", "middle")
