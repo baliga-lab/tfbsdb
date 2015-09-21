@@ -187,6 +187,7 @@ if (!isblogo) {
         
         context.fillText('Bits', x + 10, MARGIN_TOP - 5);
 
+        context.font = 'bold 12pt Arial';
         for (i = 1; i <= numBits; i += 1) {
             label = i.toString();
             context.fillText(label, x, y);
