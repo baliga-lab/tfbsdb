@@ -181,7 +181,7 @@ def view_tf(request, tfname):
     tfbs = {}
     for t1 in TFBS.objects.filter(motif__name=tfname).values():
         if not t1['gene__name'] in tfbs:
-            tmp = GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc')).values()
+            tmp = GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc').values()
             symbol = 'NA'
             if len(tmp)>0:
                 symbol = tmp[0]['name']
