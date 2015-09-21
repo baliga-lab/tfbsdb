@@ -185,7 +185,7 @@ def view_tf(request, tfname):
             symbol = 'NA'
             if len(tmp)>0:
                 symbol = tmp[0]['name']
-            tfbs[t1['gene__name']] = { 'symbol':symbol, 'entrez':t1.gene.name, 'num_sites':1, 'chromosome':t1.gene.chromosome, 'strand':t1.gene.orientation, 'start':t1.gene.start_promoter, 'stop':t1.gene.stop_promoter, 'tss':t1.gene.tss] }
+            tfbs[t1['gene__name']] = { 'symbol':symbol, 'entrez':t1.gene.name, 'num_sites':1, 'chromosome':t1.gene.chromosome, 'strand':t1.gene.orientation, 'start':t1.gene.start_promoter, 'stop':t1.gene.stop_promoter, 'tss':t1.gene.tss }
         else:
             tfbs[t1['gene__name']]['num_sites'] += 1
     num_buckets = 30
