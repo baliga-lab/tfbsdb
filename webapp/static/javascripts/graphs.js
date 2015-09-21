@@ -9,7 +9,7 @@ if (!nwpgraphs) {
          var values = histData.values;
          // A formatter for counts.
          var formatCount = d3.format(",.0f");
-         var margin = {top: 10, right: 10, bottom: 30, left: 30},
+         var margin = {top: 10, right: 10, bottom: 50, left: 50},
          width = 500 - margin.left - margin.right,
          height = 200 - margin.top - margin.bottom;
 
