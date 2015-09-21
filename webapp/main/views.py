@@ -167,16 +167,6 @@ def view_tf(request, tfname):
     motifs = Motif.objects.filter(name=tfname)
     tfbs_data = []
     motif = motifs[0]
-    """
-    tfbs = TFBS.objects.filter(motif__name=tfname).values(
-        'gene__name',
-        'gene__chromosome',
-        'gene__orientation',
-        'gene__start_promoter',
-        'gene__stop_promoter',
-        'gene__tss',
-        'start', 'stop').annotate(num_sites=len(TFBS.objects.filter(gene__name=)))
-    """
     # Compile based on genes
     tfbs = {}
     params = []
@@ -191,14 +181,7 @@ def view_tf(request, tfname):
             tfbs[t1.gene.name]['num_sites'] += 1
         params.append((t1.gene.name, t1.gene.orientation, t1.gene.tss, t1.gene.start_promoter, t1.gene.stop_promoter, t1.start, t1.stop))
     num_buckets = 30
-    """tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
-                  t['gene__start_promoter'], t['gene__stop_promoter'],
-                  t['gene__tss'], t['num_sites']) for t in tfbs] #, GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc')) for t in tfbs]
-    """
     tfbs_data = tfbs.values()
-    """params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
-               t['gene__start_promoter'], t['gene__stop_promoter'],
-               t['start'], t['stop']) for t in tfbs.values]"""
 
     dists = sorted(compute_relpos(params))
     #dists.reverse()

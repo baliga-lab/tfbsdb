@@ -59,6 +59,9 @@
                  console.debug('queryParams: ' + queryParams.highlight);
                  var dataRoot = "{% static "hsa-data" %}";
                  JBrowse = new Browser({
+                                         tracklist: 0,
+                                         nav: 0,
+                                         overview: 0,
                                          containerID: "GenomeBrowser",
                                          refSeqs: dataRoot + "/seq/refSeqs.json",
                                          baseUrl: dataRoot + '/',
