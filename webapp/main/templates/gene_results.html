@@ -108,8 +108,8 @@
   <table id="tfbs">
     <thead>
       <tr>
-        <th>Motif</th><th>Source</th><th>Strand</th><th>Location</th><th>p-value</th>
-        <th>Match</br>Sequence</th><th>Overlap w/</br>Footprints</th>
+          <th>Motif</th><th>Source</th><th>Strand</th><th>Start</th><th>Stop</th>
+          <th>p-value</th><th>Match</br>Sequence</th><th>Overlap w/</br>Footprints</th>
       </tr>
     </thead>
     <tbody>
@@ -118,7 +118,8 @@
         <td>{{tfbs.motif.name}}</td>
         <td>{{tfbs.motif.source_database.name}}</td>
         <td>{{tfbs.orientation}}</td>
-        <td>{{tfbs.start}}-{{tfbs.stop}}</td>
+        <td>{{tfbs.start}}</td>
+        <td>{{tfbs.stop}}</td>
         <td>{{tfbs.p_value|format_scientific}}</td>
         <td>{{tfbs.match_sequence}}</td>
         <td>{{tfbs.overlap_with_footprints}}</td>
