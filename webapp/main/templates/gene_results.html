@@ -3,7 +3,8 @@
 {% load view_tags %}
 {% block title %}TFBS - View Gene{% endblock %}
 {% block head %}{{ block.super }}
-  <style>
+  <! --<style>
+  
     /* main application CSS styles from jbrowse, was in genome.css */
     @import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
     @import url("{% static "javascripts/dojo/resources/dojo.css" %}");
@@ -19,7 +20,7 @@
     /* CSS styles for the various types of feature glyphs */
     @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
     @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}");
-  </style>
+  </style> --!>
 
   <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
   <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
@@ -31,7 +32,7 @@
     });
   </script>
   {% endif %}
-  <script type="text/javascript" src="{% static "javascripts/dojo/dojo.js" %}" data-dojo-config="async: 1"></script>
+  <!-- <script type="text/javascript" src="{% static "javascripts/dojo/dojo.js" %}" data-dojo-config="async: 1"></script>
   <script type="text/javascript">
     window.onerror=function(msg){
       if (document.body )
@@ -87,11 +88,11 @@
                                          updateBrowserURL: true
                                      });
         });
-    </script>
+    </script> --!>
 {% endblock %}
 {% block content %}
 {% if gene %}
-  <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div>
+  <!-- <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div> --!>
   <h2>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h2>
   <br>
   <div>Description: {{gene.description}}</div>
