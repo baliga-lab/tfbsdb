@@ -179,7 +179,7 @@ def view_tf(request, tfname):
     """
     # Compile based on genes
     tfbs = {}
-    for t1 in TFBS.objects.filter(motif__name=tfname).values():
+    for t1 in TFBS.objects.filter(motif__name=tfname):
         if not t1['gene__name'] in tfbs:
             tmp = GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc').values()
             symbol = 'NA'
