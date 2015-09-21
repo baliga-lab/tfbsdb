@@ -165,23 +165,35 @@ def view_tf(request, tfname):
         return result
 
     motifs = Motif.objects.filter(name=tfname)
-    if len(motifs) > 0:
-        motif = motifs[0]
-        tfbs = TFBS.objects.filter(motif__name=tfname).values(
-            'gene__name',
-            'gene__chromosome',
-            'gene__orientation',
-            'gene__start_promoter',
-            'gene__stop_promoter',
-            'gene__tss',
-            'start', 'stop').annotate(num_sites=Count('motif'))
-    else:
-        tfbs = []
+    tfbs_data = []
+    motif = motifs[0]
+    """
+    tfbs = TFBS.objects.filter(motif__name=tfname).values(
+        'gene__name',
+        'gene__chromosome',
+        'gene__orientation',
+        'gene__start_promoter',
+        'gene__stop_promoter',
+        'gene__tss',
+        'start', 'stop').annotate(num_sites=len(TFBS.objects.filter(gene__name=)))
+    """
+    # Compile based on genes
+    tfbs = {}
+    for t1 in TFBS.objects.filter(motif__name=tfname).values():
+        if not t1['gene__name'] in tfbs:
+            tmp = GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc')).values()
+            symbol = 'NA'
+            if len(tmp)>0:
+                symbol = tmp[0]['name']
+            tfbs[t1['gene__name']] = { 'symbol':symbol, 'entrez':t1['gene__name'], 'num_sites':1, 'chromosome':t1['gene__chromosome'], 'strand':t1['gene__orientation'], 'start':t1['gene__start_promoter'], 'stop':t1['gene__stop_promoter'], 'tss':t1['gene__tss'] }
+        else:
+            tfbs[t1['gene__name']]['num_sites'] += 1
     num_buckets = 30
-    tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
+    """tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
                   t['gene__start_promoter'], t['gene__stop_promoter'],
                   t['gene__tss'], t['num_sites']) for t in tfbs] #, GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc')) for t in tfbs]
-
+    """
+    tfbs_data = tfbs.values()
     params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
                t['start'], t['stop']) for t in tfbs]

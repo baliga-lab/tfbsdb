@@ -47,18 +47,18 @@
   <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
   <table id="genelist">
     <thead>
-        <tr><th>Entrez Id</th><th># of Sites</th><th>Strand</th><th>Chromosome</th><th>Promoter Location</th><th>TSS</th></tr>
+        <tr><th>Gene</th><th>Entrez Id</th><th># of Sites</th><th>Strand</th><th>Chromosome</th><th>Promoter Location</th><th>TSS</th></tr>
     </thead>
     <tbody>
     {% for t in tfbs_data %}
-    {{t}}
     <tr>
-      <td><a href="/viewgene/{{t.0}}">{{t.7}} ({{t.0}})</a></td>
-      <td>{{t.6}}</td>
-      <td>{{t.2}}</td>
-      <td>{{t.1}}</td>
-      <td>{{t.3}}-{{t.4}}</td>
-      <td>{{t.5}}</td>
+      <td>{{t.symbol}}</a></td>
+      <td><a href="/viewgene/{{t.entrez}}">{{t.entrez}}</a></td>
+      <td>{{t.num_sites}}</td>
+      <td>{{t.chromosome}}</td>
+      <td>{{t.strand}}</td>
+      <td>{{t.start}}-{{t.stop}}</td>
+      <td>{{t.tss}}</td>
     </tr>
     {% endfor %}
     </tbody>
