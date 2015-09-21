@@ -179,6 +179,7 @@ def view_tf(request, tfname):
     """
     # Compile based on genes
     tfbs = {}
+    params = []
     for t1 in TFBS.objects.filter(motif__name=tfname):
         if not t1.gene.name in tfbs:
             tmp = GeneSynonyms.objects.filter(gene__name=t1.gene.name).filter(synonym_type='hgnc')
@@ -188,15 +189,16 @@ def view_tf(request, tfname):
             tfbs[t1.gene.name] = { 'symbol':symbol, 'entrez':t1.gene.name, 'num_sites':1, 'chromosome':t1.gene.chromosome, 'strand':t1.gene.orientation, 'start':t1.gene.start_promoter, 'stop':t1.gene.stop_promoter, 'tss':t1.gene.tss }
         else:
             tfbs[t1.gene.name]['num_sites'] += 1
+        params.append((t1.gene.name, t1.gene.orientation, t1.gene.tss, t1.gene.start_promoter, t1.gene.stop_promoter, t1.start, t1.stop))
     num_buckets = 30
     """tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
                   t['gene__start_promoter'], t['gene__stop_promoter'],
                   t['gene__tss'], t['num_sites']) for t in tfbs] #, GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synonym_type='hgnc')) for t in tfbs]
     """
     tfbs_data = tfbs.values()
-    params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
+    """params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
-               t['start'], t['stop']) for t in tfbs]
+               t['start'], t['stop']) for t in tfbs.values]"""
 
     dists = sorted(compute_relpos(params))
     #dists.reverse()
