@@ -50,7 +50,7 @@ if (!nwpgraphs) {
          svg.append("g")
              .attr("class", "x axis")
              .style("font-size", "85%")
-             .attr("transform", "traslate(0," + height + ")")
+             .attr("transform", "translate(0," + height + ")")
              .call(xAxis);
 
          svg.append("text")      // text label for the x axis
