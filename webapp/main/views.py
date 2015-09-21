@@ -206,7 +206,7 @@ def view_gene(request, genename):
 
     if genes.count() > 0:
         gene = genes[0]
-    motifs = [motif.name for motif in gene.motifs]
+    motifs = [motif.name for motif in gene.motifs.all()]
     return render_to_response('gene_results.html', locals())
 
 
