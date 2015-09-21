@@ -55,6 +55,7 @@ if (!nwpgraphs) {
              .attr("x", width / 2 )
              .attr("y",  -5 + height + margin.bottom)
              .style("text-anchor", "middle")
+             .style("font-weight", "bold")
              .text("Position Relative to TSS (bp)");
 
          svg.append("g")
@@ -67,6 +68,7 @@ if (!nwpgraphs) {
              .attr("x",0 - (height / 2))
              .attr("dy", "1em")
              .style("text-anchor", "middle")
+             .style("font-weight", "bold")
              .text("Frequency");
         
          
