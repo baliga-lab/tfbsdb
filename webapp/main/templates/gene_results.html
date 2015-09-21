@@ -3,24 +3,24 @@
 {% load view_tags %}
 {% block title %}TFBS - View Gene{% endblock %}
 {% block head %}{{ block.super }}
-  <! --<style>
+    <style>
   
     /* main application CSS styles from jbrowse, was in genome.css */
-    @import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
+    /*@import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
     @import url("{% static "javascripts/dojo/resources/dojo.css" %}");
     @import url("{% static "javascripts/dojox/form/resources/UploaderFileList.css" %}");
     @import url("{% static "javascripts/dojox/grid/resources/tundraGrid.css" %}");
-    @import url("{% static "javascripts/dijit/themes/tundra/layout/AccordionContainer.css" %}");
+    @import url("{% static "javascripts/dijit/themes/tundra/layout/AccordionContainer.css" %}"); */
 
-    @import url("{% static "stylesheets/jbrowse/main.css" %}");
+    /* @import url("{% static "stylesheets/jbrowse/main.css" %}");
     @import url("{% static "stylesheets/jbrowse/menubar.css" %}");
     @import url("{% static "stylesheets/jbrowse/icons.css" %}");
-    @import url("{% static "stylesheets/jbrowse/file_dialog.css" %}");
+    @import url("{% static "stylesheets/jbrowse/file_dialog.css" %}"); */
 
     /* CSS styles for the various types of feature glyphs */
-    @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
-    @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}");
-  </style> --!>
+    /* @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
+    @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}"); */
+  </style>
 
   <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
   <script src="{% static "javascripts/jquery.dataTables.min.js" %}"></script>
@@ -93,14 +93,17 @@
 {% block content %}
 {% if gene %}
   <!-- <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div> --!>
-  <h2>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h2>
-  <br>
-  <div>Description: {{gene.description}}</div>
-  <div>Chromosome: {{gene.chromosome}}</div>
-  <div>Orientation: {{gene.orientation}}</div>
+  <h2>{{gene.hgnc}} (Entrez:  {{gene.name}})</h2>
+  </br>
+  <table>
+    <tr><td>Description</td><td>Chromosome</td><td>Strand</td><td>Promoter (Start - Stop)</td><td>TSS</td><td>Motifs</td></tr>
+    <tr><td>{{gene.description}}</td> <td>{{gene.chromosome}}</td> <td>{{gene.orientation}}</td><td>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td>{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a> {% endfor %}</td></tr>
+  </table>
+  <div>Chromosome: </div>
+  <div>Orientation: </div>
   <div>Promoter: {{gene.start_promoter}}-{{gene.stop_promoter}}</div>
   <div>TSS: {{gene.tss}}</div>
-  <div># motifs: {{gene.motifs.count}}</div>
+  <div># motifs: {{gene.motifs.names}}</div>
 
   <h2>Transcription Binding Sites</h2>
   <div>&nbsp;</div>
