@@ -61,6 +61,7 @@ if (!nwpgraphs) {
              .text("Position Relative to TSS (bp)");
 
          svg.append("g")
+             .style("font-size", "85%")
              .attr("class", "y axis")
              .call(yAxis);
 
