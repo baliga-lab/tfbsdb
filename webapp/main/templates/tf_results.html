@@ -35,8 +35,8 @@
 {% endblock %}
 {% block content %}
   {% if tfbs %}
-  <center><h1>{{motif.name}}</h1>
-  <p>The {{motif.name}} comes from the {{motif.source_database.name}} database.</p>
+  <center><h1>{{gene}} - {{motif.name}}</h1>
+      <p>The {{motif.name}} for {{gene}} comes from the {{motif.source_database.name}} database.</p>
   <table>
       <tr>
           <td align='center'><h2>Motif Sequence Logo</h2></br><div id="canvas_0"></div></td>

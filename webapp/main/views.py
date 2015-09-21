@@ -167,6 +167,7 @@ def view_tf(request, tfname):
     motifs = Motif.objects.filter(name=tfname)
     tfbs_data = []
     motif = motifs[0]
+    gene = Gene.objects.filter(motifs__name=motif.name).all()[0].hgnc
     # Compile based on genes
     tfbs = {}
     params = []
