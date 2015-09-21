@@ -95,10 +95,10 @@
   <!-- <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div> --!>
   <h2>{{gene.hgnc}} (Entrez:  {{gene.name}})</h2>
   </br>
-  <table>
-    <tr><th>Description</th><th>Chromosome</th><th>Strand</th><th>Promoter (Start - Stop)</th><th>TSS</th><th>Motifs</th></tr>
-    <tr><td>{{gene.description}}</td> <td>{{gene.chromosome}}</td> <td>{{gene.orientation}}</td><td>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td>{{gene.tss}}</td> <td>{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}</td></tr>
-  </table>
+  <center><table class='genetable'>
+    <tr><th class='geneth'>Description</th><th class='geneth'>Chromosome</th><th class='geneth'>Strand</th><th class='geneth'>Promoter (Start - Stop)</th><th class='geneth'>TSS</th><th class='geneth'>Motifs</th></tr>
+    <tr><td class='genetd'>{{gene.description}}</td> <td class='genetd'>{{gene.chromosome}}</td> <td class='genetd'>{{gene.orientation}}</td><td class='genetd'>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td class='genetd'>{{gene.tss}}</td> <td class='genetd'>{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}</td></tr>
+  </table></center>
 
   <h2>Transcription Binding Sites</h2>
   <div>&nbsp;</div>

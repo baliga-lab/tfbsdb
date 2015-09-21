@@ -455,3 +455,16 @@ a.footer:active {
 	width:100%;
 }
 
+.genetable {
+    border: 1;
+    bgcolor:#660000;
+}
+.geneth {
+        bgcolor:#666666;
+        align:center;
+}
+.genetd {
+        bgcolor:#ffffff;
+        align:center;
+}
+
