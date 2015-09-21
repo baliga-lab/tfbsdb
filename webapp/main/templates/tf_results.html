@@ -36,10 +36,12 @@
 {% block content %}
   {% if tfbs %}
   <h1>{{motif.name}}</h1>
-  <div>&nbsp;</div>
-  <h2>Motif Sequence Logo</h2></br><div id="canvas_0"></div>
-  <div>&nbsp;</div>
-  <h2>Distribution of Motif Positions Relative to TSS</h2></br><div id="graph_0"></div>
+  <table>
+      <tr>
+          <td><h2>Motif Sequence Logo</h2></br><div id="canvas_0"></div></td>
+          <td><h2>Distribution of Motif Positions Relative to TSS</h2></br><div id="graph_0"></div></td>
+      </tr>
+  </table>
   <div>&nbsp;</div>
   <h2>Target Gene List</h2></br>
   <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
