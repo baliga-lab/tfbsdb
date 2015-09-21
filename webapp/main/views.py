@@ -180,7 +180,7 @@ def view_tf(request, tfname):
     num_buckets = 30
     tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
                   t['gene__start_promoter'], t['gene__stop_promoter'],
-                  t['gene__tss'], t['num_sites']) for t in tfbs]
+                  t['gene__tss'], t['num_sites'], GeneSynonyms.objects.filter(gene__name=t['gene__name']).filter(synoynm_type='hgnc')[0]['name']) for t in tfbs]
 
     params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
                t['gene__start_promoter'], t['gene__stop_promoter'],
@@ -193,7 +193,7 @@ def view_tf(request, tfname):
     max_dist = max(dists) if len(dists) > 0 else 0
     histogram_data = HistogramData(min_dist, max_dist, 0, dists)
     return render_to_response('tf_results.html', locals())
-    
+
 
 def search_tf(request):
     searchterm = request.GET.get('searchterm', '')
