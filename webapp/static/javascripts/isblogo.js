@@ -183,7 +183,8 @@ if (!isblogo) {
 */
     function drawLabelsY(context, pssm, x0, y0, yHeight) {
         var i, label, x = x0, numBits = Math.ceil(log(pssm.alphabet.length, 2)), ydist = (yHeight - 10) / numBits, y = y0 - ydist;
-        context.font = '12pt Arial';
+        context.font = 'bold 12pt Arial';
+        
         context.fillText('Bits', x + 10, MARGIN_TOP - 5);
 
         for (i = 1; i <= numBits; i += 1) {
