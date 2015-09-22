@@ -35,12 +35,13 @@
     <u>Number of genes:</u> {{num_genes}}</br>
     <u>Number of motifs:</u> {{num_motifs}}</br>
     <u>Number of TFBS:</u> {{num_tfbs}}</p>
-    <table cellpadding=0 class='search'><tr><td align='right'>Search for TF or genes:</td><td><form id="searchform" action="searchtf" method="get">
+    <table cellpadding=0 class='search'><tr><td align='right'>Search for TF or genes:<form id="searchform" action="searchtf" method="get">
       <select id="stype">
         <option value="tf">TF</option>
         <option value="gene">Gene</option>
       </select>
-      <input id="term" name="searchterm" type="search"><input id="searchbutton" type="submit" value="Search" class='searchbutton'>
+      <input id="term" name="searchterm" type="search">
+      <input id="searchbutton" type="submit" value="Search" class='searchbutton'>
     </form></td></tr></table>
     <div id="results"></div>
     </center>

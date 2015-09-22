@@ -473,7 +473,7 @@ a.footer:active {
         border: 1px solid #660000;
 }
 .search {
-    background-color: #cc9999;
+    background-color: #cccccc;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     -moz-border-radius-topleft: 15px;
@@ -488,7 +488,7 @@ a.footer:active {
     -webkit-border-radius-bottomright: 15px;
     vertical-align: middle;
     text-align: center;
-    color: #000000;
+    color: #330000;
     font-size: 125%;
     font-weight: bold;
 }
