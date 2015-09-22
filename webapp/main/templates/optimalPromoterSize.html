@@ -30,18 +30,13 @@
       });
     </script>{% endblock %}
     {% block content %}
-    <p align='left'>This database of transcription factor (TF) to target gene interactions was constructed by combining: 1) human genome sequence, 2) 2,331 unique DNA recognition motifs for 690 TFs from human and mouse genomes (Matys et al., 2006; Newburger and Bulyk, 2009; Jolma et al., 2013; Mathelier et al., 2014), and 3) occupancy of 8.4 million genomic sites through ENCODE DNase I footprints across 41 diverse cell and tissue types (Neph et al., 2012). In total 17,415,125 significant motif instances (FIMO p-value = 1 x 10<sup>-5</sup>) were discovered for the 2,331 TF DNA recognition motifs using an optimal promoter size of &#177;5Kbp from the transcriptional start site. A quarter of these motif instances (3,505,491 motif instances) that overlapped by at least 1bp with a digital genomic footprint (DGF) were used to construct a mechanistic regulatory network of 690 TFs regulating 18,153 genes.</p>
-    <center><p><b>Database statistics</b></br>
-    <u>Number of genes:</u> {{num_genes}}</br>
-    <u>Number of motifs:</u> {{num_motifs}}</br>
-    <u>Number of TFBS:</u> {{num_tfbs}}</p>
-    <table><tr><td align='right' ><b>Search:</b></td><td><form id="searchform" action="searchtf" method="get">
-      <select id="stype">
-        <option value="tf">TF</option>
-        <option value="gene">Gene</option>
-      </select>
-      <input id="term" name="searchterm" type="search"><input id="searchbutton" type="submit" value="Search">
-    </form></td></tr></table>
-    <div id="results"></div>
+    <p align='left'>We defined the optimum promoter as the maximum region around the Transcriptional Start Site (TSS) that produces similar sensitivity and specificity of TF-target gene predictions as the core promoter (i.e., ±500bp of the TSS). To find this optimum size, we fixed the downstream (3') promoter boundary at +500bp and varied the upstream (5') promoter boundary (-1, -2.5, -5, -10 and -20Kbp; Figure 1A). Relative to the core promoter, a significant decrease in the sensitivity and specificity (p-value = 0.05) was observed when the upstream promoter boundary increased beyond -5Kbp (p-value = 2.9 x 10<sup>-3</sup>; Figure 1A; Supplementary Table {DefiningPromoter}). We then set the upstream promoter boundary at -5Kbp and varied the downstream promoter boundary (+1, +2.5, +5, +10, +20Kbp, and all genic sequences; Figure 1E). We observed a significant decrease in sensitivity and specificity when the downstream promoter went beyond +5Kbp (p-value = 1.5 x 10<sup>-2</sup>; Figure 1E; Supplementary Table {DefiningPromoter}). Thus, we empirically defined the optimal promoter search space for potential TF binding sites to be &#177;5Kbp from the TSS of human genes, and this was the promoter size used to pre-compute the mechanistic TF regulatory network (i.e., a rigorously tested database of TF-target gene interactions). Using glioblastoma multiforme (GBM) as an example, we demonstrated how this database can be used to infer a comprehensive causal TF regulatory network for any complex disease.</p>
+    <table>
+        <tr>
+            <td><b>Figure 1.</b> Results of varying promoter region on ROC AUC using ChIP-seq as gold standard. <b>A.</b> Comparisons of ROC AUCs from increasing upstream promoter lengths were made relative to the core promoter size of &#177;500bp. A promoter length exceeding the red line indicates a significant reduction in ROC AUC (p-value &lt; 0.05). <b>B.</b> Comparisons of ROC AUCs from increasing downstream promoter lengths were made relative to the promoter size of -5Kbp and +500bp. A promoter length exceeding the red line indicates a significant reduction in ROC AUC (p-value &lt; 0.05).</td>
+        </tr>
+        <tr>
+            <td><img src='{% static "images/optimalPromoter.gif" %}'></td>
+        </tr>
     </center>
     {% endblock %}
