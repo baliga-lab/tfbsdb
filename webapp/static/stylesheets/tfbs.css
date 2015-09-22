@@ -492,15 +492,17 @@ a.footer:active {
     font-size: 125%;
     font-weight: bold;
 }
-input[type=select] {
-    font-size: 150%;
-}
 input[type=submit] {
     color: #330000;
     border: 1px solid #330000;
-    font-size: 125%;
+    /*font-size: 125%; */
     font-weight: bold;
     background-color: #ffffff;
     padding: 5px 10px;
     border-radius: 3px;
+}
+input[type=submit]:hover {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    background-color: #330000;
 }
