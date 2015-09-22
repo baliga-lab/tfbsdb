@@ -488,8 +488,8 @@ a.footer:active {
     -webkit-border-radius-bottomright: 15px;
     vertical-align: middle;
     text-align: center;
-    color: #330000;
-    font-size: 150%;
+    color: #ffffff;
+    font-size: 125%;
     font-weight: bold;
 }
 input[type=select] {
@@ -497,10 +497,10 @@ input[type=select] {
 }
 input[type=submit] {
     color: #330000;
-    border: #330000;
-    font-size: 150%;
+    border: 1px solid #330000;
+    font-size: 125%;
     font-weight: bold;
     background-color: #ffffff;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 3px;
 }
