@@ -97,7 +97,7 @@
   </br>
   <center><table class='genetable' id='genetable'>
           <tr><th class='geneth' id='geneth'>Entrez</th><th class='geneth' id='geneth'>Description</th><th class='geneth' id='geneth'>Chrom.</th><th class='geneth' id='geneth'>Strand</th><th class='geneth' id='geneth'>Promoter</br>(Start - Stop)</th><th class='geneth' id='geneth'>TSS</th>{% if motifs|length > 0 %}<th class='geneth' id='geneth'>Motifs</th>{% endif %}</tr>
-          <tr><td class='genetd' id='genetd'>{{gene.name}}</td> <td class='genetd' id='genetd'>{{gene.description}}</td> <td class='genetd' id='genetd'>{{gene.chromosome}}</td> <td class='genetd' id='genetd'>{{gene.orientation}}</td><td class='genetd' id='genetd'>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td class='genetd' id='genetd'>{{gene.tss}}</td> <td class='genetd' id='genetd'>{% if motifs|length > 0 %}{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}{% endif %}</td></tr>
+          <tr><td class='genetd' id='genetd'>{{gene.name}}</td> <td class='genetd' id='genetd'>{{gene.description}}</td> <td class='genetd' id='genetd'>{{gene.chromosome}}</td> <td class='genetd' id='genetd'>{{gene.orientation}}</td><td class='genetd' id='genetd'>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td class='genetd' id='genetd'>{{gene.tss}}</td>{% if motifs|length > 0 %} <td class='genetd' id='genetd'>{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}</td>{% endif %}</tr>
   </table></center>
 
   <h2>Transcription Factor Binding Sites</h2>
