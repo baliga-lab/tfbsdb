@@ -39,4 +39,11 @@
             <td align='center'><img src='{% static "images/construction.gif" %}'></td>
         </tr>
     </table></center>
+    <p align='left'>We systematically evaluated the sensitivity and specificity of this inferred mechanistic regulatory network by comparing the predicted TF-target gene interactions against a physical map of protein-DNA interactions constructed from 148 ChIP-seq experiments across 72 cell lines and covering 78 different TFs (Figure 1B) (<a href='http://www.ncbi.nlm.nih.gov/pubmed/23203885'>Wang et al., 2012</a>). This comparative analysis  demonstrated that the sensitivity and specificity of TF-target gene predictions for the DGF-filtered motif instances were significantly better relative to predictions based on all instances (unfiltered receiver operating characteristic area under the curve (ROC AUC) = 0.74; filtered ROC AUC = 0.85; p-value = 6.9 x 10<sup>-8</sup>; Figure 2). Remarkably, the mechanistic regulatory network also accurately predicted TF-target gene interactions in cell lines and tissues that were not represented within the ENCODE compendium of DGF profiles (DGF profiled ROC AUC = 0.85, not profiled ROC AUC = 0.82, comparison p-value = 0.24). This result demonstrates that the diversity of DGF profiles from 41 cell types within ENCODE can be generalized to capture transcriptional regulation by most TFs across most cell types.</p>
+    <center><table width=600 cellpadding=0>
+        <tr>
+            <td align='left'><b>Figure 2.</b> Validation of genome-wide TF to target gene database using ChIP-seq gold standard from ENCODE. Filtering predicted transcription factor binding sites through DNAse I hypersensitivity footprints significantly increases sensitivity and specificity for predicting TF from ENCODE ChIP-seq studies. Each line is a ROC curve for comparison to the corresponding the ENCODE ChIP-seq studies. AUC = area under the curve.</td>
+            <td align='center'><img src='{% static "images/ROC.gif" %}'></td>
+        </tr>
+    </table></center>
     {% endblock %}
