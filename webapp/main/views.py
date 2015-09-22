@@ -212,8 +212,10 @@ def view_gene(request, genename):
     except:
         genes = Gene.objects.filter(genesynonyms__name=genename)
 
-    if genes.count() > 0:
+    if len(genes) > 0:
         gene = genes[0]
+    else:
+        return HttpResponseRedirect('/notFound?searchterm='+genename)
     motifs = [motif.name for motif in gene.motifs.all() if len(TFBS.objects.filter(motif=motif).all())>0]
     return render_to_response('gene_results.html', locals())
 
