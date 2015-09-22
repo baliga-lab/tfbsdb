@@ -120,6 +120,11 @@ def index(request):
     num_tfbs = TFBS.objects.count()
     return render_to_response('index.html', locals())
 
+def notFound(request,badName):
+    num_genes = Gene.objects.count()
+    num_motifs = Motif.objects.count()
+    num_tfbs = TFBS.objects.count()
+    return render_to_response('index.html', locals())
 
 def jbrowse(request):
     return render_to_response('jbrowse.html', locals())
@@ -166,7 +171,7 @@ def view_tf(request, tfname):
 
     motifs = Motif.objects.filter(name=tfname)
     if len(motifs)==0:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/notFound?searchterm='+tfname)
     tfbs_data = []
     motif = motifs[0]
     gene = Gene.objects.filter(motifs__name=motif.name).all()[0].hgnc
