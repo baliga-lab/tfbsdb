@@ -511,3 +511,6 @@ input[type=submit]:hover {
     font-weight: bold;
     font-size: 150%;
 }
+.red {
+    color: #cc0000;
+}
