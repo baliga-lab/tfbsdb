@@ -38,7 +38,7 @@
       </select>
       <input id="term" name="searchterm" type="search">
       <input id="searchbutton" type="submit" value="Search" class='searchbutton'>
-    </form></br><b>Notes on searching:</b></br>
+    </form></br><b>Notes:</b></br>
     <ul>
         <li>Use autocomplete to select TFs or genes from our database</li>
         <li>TFs are selected based on the name of the motif</li>
