@@ -115,7 +115,7 @@
     <tbody>
       {% for tfbs in gene.tfbs_set.all %}
       <tr>
-        <td>{{tfbs.motif.name}}</td>
+        <td><a href="/searchtf?searchterm={{tfbs.motif.name}}">{{tfbs.motif.name}}</a></td>
         <td>{{tfbs.motif.source_database.name}}</td>
         <td>{{tfbs.orientation}}</td>
         <td>{{tfbs.start}}</td>
