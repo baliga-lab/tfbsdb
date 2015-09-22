@@ -283,11 +283,11 @@ def genetfbs_csv(request, genename):
     resp['Content-Disposition'] = 'attachment; filename="%s_tfbs.tsv"' % genename
     return resp
 
-def validation(request):
-    return render_to_response('validation.html', locals())
+def constructionValidation(request):
+    return render_to_response('constructionValidation.html', locals())
 
 def optimalPromoter(request):
-    return render_to_response('optimalPromoter.html', locals())
+    return render_to_response('optimalPromoterSize.html', locals())
 
 def download(request):
     return render_to_response('download.html', locals())
