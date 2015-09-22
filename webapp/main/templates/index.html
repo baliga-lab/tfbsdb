@@ -30,12 +30,12 @@
       });
     </script>{% endblock %}
     {% block content %}
-    <p align='left'>This database of transcription factor (TF) to target gene interactions was constructed by combining: 1) human genome sequence, 2) 2,331 unique DNA recognition motifs for 690 TFs from human and mouse genomes (Matys et al., 2006; Newburger and Bulyk, 2009; Jolma et al., 2013; Mathelier et al., 2014), and 3) occupancy of 8.4 million genomic sites through ENCODE DNase I footprints across 41 diverse cell and tissue types (Neph et al., 2012). In total 17,415,125 significant motif instances (FIMO p-value = 1 x 10<sup>-5</sup>) were discovered for the 2,331 TF DNA recognition motifs using an optimal promoter size of &#177;5Kbp from the transcriptional start site. A quarter of these motif instances (3,505,491 motif instances) that overlapped by at least 1bp with a digital genomic footprint (DGF) were used to construct a mechanistic regulatory network of 690 TFs regulating 18,153 genes.</p>
+    <p align='left'>This database of transcription factor (TF) to target gene interactions was constructed to facilitate construction of gene regulatory networks. It has been validated for this purpose and preforms quite well, please see <a href='/constructionValidation'>Construction and Validation</a> for more information.</p>
     <center><p><b>Database statistics</b></br>
     <u>Number of genes:</u> {{num_genes}}</br>
     <u>Number of motifs:</u> {{num_motifs}}</br>
     <u>Number of TFBS:</u> {{num_tfbs}}</p>
-    <table><tr><td align='right' ><b>Search:</b></td><td><form id="searchform" action="searchtf" method="get">
+    <table cellpadding=0 class='search'><tr><td align='right'><b>Search:</b></td><td><form id="searchform" action="searchtf" method="get">
       <select id="stype">
         <option value="tf">TF</option>
         <option value="gene">Gene</option>

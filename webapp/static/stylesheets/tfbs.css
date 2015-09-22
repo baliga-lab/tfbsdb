@@ -472,3 +472,20 @@ a.footer:active {
         vertical-align: middle;
         border: 1px solid #660000;
 }
+.search {
+    background-color: #666666;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    -moz-border-radius-topleft: 15px;
+    -moz-border-radius-topright: 15px;
+    -webkit-border-radius-topleft: 15px;
+    -webkit-border-radius-topright: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    -moz-border-radius-bottomleft: 15px;
+    -moz-border-radius-bottomright: 15px;
+    -webkit-border-radius-bottomleft: 15px;
+    -webkit-border-radius-bottomright: 15px;
+    vertical-align: middle;
+    text-align: center;
+}
