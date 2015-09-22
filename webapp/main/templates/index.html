@@ -27,6 +27,7 @@
           }
         });
         tfAutocomplete();
+        $('#searchterm').change(function() { $('#searchform').submit(); });
       });
     </script>{% endblock %}
     {% block content %}
