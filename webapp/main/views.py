@@ -165,6 +165,8 @@ def view_tf(request, tfname):
         return result
 
     motifs = Motif.objects.filter(name=tfname)
+    if len(motifs)==0:
+        return HttpResponseRedirect('/')
     tfbs_data = []
     motif = motifs[0]
     gene = Gene.objects.filter(motifs__name=motif.name).all()[0].hgnc
