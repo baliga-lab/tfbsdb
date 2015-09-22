@@ -497,12 +497,12 @@ input[type=submit] {
     border: 1px solid #ffffff;
     /*font-size: 125%; */
     font-weight: bold;
-    background-color: #ff0000;
+    background-color: #cc0000;
     padding: 5px 10px;
     border-radius: 3px;
 }
 input[type=submit]:hover {
-    color: #ff0000;
-    border: 1px solid #ff0000;
+    color: #cc0000;
+    border: 1px solid #cc0000;
     background-color: #ffffff;
 }
