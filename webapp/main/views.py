@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 
 from models import *
 import re
