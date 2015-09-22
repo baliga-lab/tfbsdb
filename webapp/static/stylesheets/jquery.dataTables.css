@@ -15,16 +15,22 @@ table.dataTable thead th {
   color: #000;
 	cursor: pointer;
 	*cursor: hand;
+        text-align: center;
+        vertical-align: middle;
 }
 
 table.dataTable tfoot th {
 	padding: 3px 18px 3px 10px;
 	border-top: 1px solid black;
 	font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
 }
 
 table.dataTable td {
 	padding: 3px 10px;
+        text-align: center;
+        vertical-align: middle;
 }
 
 table.dataTable td.center,
