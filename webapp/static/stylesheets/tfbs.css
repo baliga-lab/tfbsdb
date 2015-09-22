@@ -488,4 +488,7 @@ a.footer:active {
     -webkit-border-radius-bottomright: 15px;
     vertical-align: middle;
     text-align: center;
+    color: #ffffff;
+    font-size: 125%;
+    font-weight: bold;
 }
