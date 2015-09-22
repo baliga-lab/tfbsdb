@@ -7,14 +7,12 @@
         $('#term').autocomplete({
           source: '/tfcompletions',
           minLength: 2,
-          change: function() { $('#searchform').submit(); }
         });
       }
       function geneAutocomplete() {
         $('#term').autocomplete({
           source: '/genecompletions',
           minLength: 2,
-          change: function() { $('#searchform').submit(); }
         });
       }
       $(document).ready(function() {
