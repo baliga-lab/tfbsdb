@@ -473,7 +473,7 @@ a.footer:active {
         border: 1px solid #660000;
 }
 .search {
-    background-color: #666666;
+    background-color: #cc9999;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     -moz-border-radius-topleft: 15px;
@@ -488,21 +488,21 @@ a.footer:active {
     -webkit-border-radius-bottomright: 15px;
     vertical-align: middle;
     text-align: center;
-    color: #ffffff;
+    color: #000000;
     font-size: 125%;
     font-weight: bold;
 }
 input[type=submit] {
-    color: #330000;
-    border: 1px solid #330000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
     /*font-size: 125%; */
     font-weight: bold;
-    background-color: #ffffff;
+    background-color: #330000;
     padding: 5px 10px;
     border-radius: 3px;
 }
 input[type=submit]:hover {
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    background-color: #330000;
+    color: #330000;
+    border: 1px solid #330000;
+    background-color: #ffffff;
 }
