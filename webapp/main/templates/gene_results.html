@@ -100,6 +100,7 @@
           <tr><td class='genetd' id='genetd'>{{gene.name}}</td> <td class='genetd' id='genetd'>{{gene.description}}</td> <td class='genetd' id='genetd'>{{gene.chromosome}}</td> <td class='genetd' id='genetd'>{{gene.orientation}}</td><td class='genetd' id='genetd'>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td class='genetd' id='genetd'>{{gene.tss}}</td> <td class='genetd' id='genetd'>{% if motifs.count > 0 %}{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}{% endif %}</td></tr>
   </table></center>
   {{motifs.count}}
+  {{motifs|length}}
 
   <h2>Transcription Factor Binding Sites</h2>
   <div>&nbsp;</div>
