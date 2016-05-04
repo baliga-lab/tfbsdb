@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}TFTG DB - Download{% endblock %}
+{% block head %}{{ block.super }}
+    <script type="text/javascript">
+      function tfAutocomplete() {
+        $('#term').autocomplete({
+          source: '/tfcompletions',
+          minLength: 2
+        });
+      }
+      function geneAutocomplete() {
+        $('#term').autocomplete({
+          source: '/genecompletions',
+          minLength: 2
+        });
+      }
+      $(document).ready(function() {
+        $('#stype').change(function() {
+          var stype = $(this).val();
+          if (stype == 'tf') {
+            tfAutocomplete();
+            $('#searchform').attr('action', 'searchtf');
+          } else {
+            geneAutocomplete();
+            $('#searchform').attr('action', 'searchgene');
+          }
+        });
+        tfAutocomplete();
+      });
+    </script>{% endblock %}
+    {% block content %}
+    <center><h2>Download</h2></center>
+    <p align='left'>We provide the TF target gene predictions as separate CSV files for each TF motif. We also provide a conversion file that maps motif names to their cognate TF.</p>
+    <ul align='left'>
+        <li><a href="{% static "downloads/tftg_db.tar.gz" %}">Human TFTG DB (.tar.gz of .csv files)</a></li>
+        <li><a href="{% static "downloads/humanTFMotifEntrezMappings.xlsx" %}">Motif to Entrez conversion table (.xlsx)</a></li>
+    </ul>
+    {% endblock %}

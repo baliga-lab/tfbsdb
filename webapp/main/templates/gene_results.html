@@ -3,22 +3,23 @@
 {% load view_tags %}
 {% block title %}TFBS - View Gene{% endblock %}
 {% block head %}{{ block.super }}
-  <style>
+    <style>
+  
     /* main application CSS styles from jbrowse, was in genome.css */
-    @import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
+    /*@import url("{% static "javascripts/dijit/themes/tundra/tundra.css" %} ");
     @import url("{% static "javascripts/dojo/resources/dojo.css" %}");
     @import url("{% static "javascripts/dojox/form/resources/UploaderFileList.css" %}");
     @import url("{% static "javascripts/dojox/grid/resources/tundraGrid.css" %}");
-    @import url("{% static "javascripts/dijit/themes/tundra/layout/AccordionContainer.css" %}");
+    @import url("{% static "javascripts/dijit/themes/tundra/layout/AccordionContainer.css" %}"); */
 
-    @import url("{% static "stylesheets/jbrowse/main.css" %}");
+    /* @import url("{% static "stylesheets/jbrowse/main.css" %}");
     @import url("{% static "stylesheets/jbrowse/menubar.css" %}");
     @import url("{% static "stylesheets/jbrowse/icons.css" %}");
-    @import url("{% static "stylesheets/jbrowse/file_dialog.css" %}");
+    @import url("{% static "stylesheets/jbrowse/file_dialog.css" %}"); */
 
     /* CSS styles for the various types of feature glyphs */
-    @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
-    @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}");
+    /* @import url("{% static "stylesheets/jbrowse/track_styles.css" %}");
+    @import url("{% static "stylesheets/jbrowse/faceted_track_selector.css" %}"); */
   </style>
 
   <link rel="stylesheet" href="{% static "stylesheets/jquery.dataTables.css" %}">
@@ -31,7 +32,7 @@
     });
   </script>
   {% endif %}
-  <script type="text/javascript" src="{% static "javascripts/dojo/dojo.js" %}" data-dojo-config="async: 1"></script>
+  <!-- <script type="text/javascript" src="{% static "javascripts/dojo/dojo.js" %}" data-dojo-config="async: 1"></script>
   <script type="text/javascript">
     window.onerror=function(msg){
       if (document.body )
@@ -59,6 +60,9 @@
                  console.debug('queryParams: ' + queryParams.highlight);
                  var dataRoot = "{% static "hsa-data" %}";
                  JBrowse = new Browser({
+                                         tracklist: 0,
+                                         nav: 0,
+                                         overview: 0,
                                          containerID: "GenomeBrowser",
                                          refSeqs: dataRoot + "/seq/refSeqs.json",
                                          baseUrl: dataRoot + '/',
@@ -84,41 +88,41 @@
                                          updateBrowserURL: true
                                      });
         });
-    </script>
+    </script> --!>
 {% endblock %}
 {% block content %}
 {% if gene %}
-  <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div>
-  <h2>Gene Entrez {{gene.name}} ({{gene.hgnc}})</h2>
-  <br>
-  <div>Description: {{gene.description}}</div>
-  <div>Chromosome: {{gene.chromosome}}</div>
-  <div>Orientation: {{gene.orientation}}</div>
-  <div>Promoter: {{gene.start_promoter}}-{{gene.stop_promoter}}</div>
-  <div>TSS: {{gene.tss}}</div>
-  <div># motifs: {{gene.motifs.count}}</div>
+  <!-- <div id="GenomeBrowser" style="height: 50%; width: 100%; padding: 0; border: 0; overflow: scroll"></div> --!>
+  <h2>{{gene.hgnc}}</h2>
+  </br>
+  <center><table class='genetable' id='genetable'>
+          <tr><th class='geneth' id='geneth'>Entrez</th><th class='geneth' id='geneth'>Description</th><th class='geneth' id='geneth'>Chrom.</th><th class='geneth' id='geneth'>Strand</th><th class='geneth' id='geneth'>Promoter</br>(Start - Stop)</th><th class='geneth' id='geneth'>TSS</th>{% if motifs|length > 0 %}<th class='geneth' id='geneth'>Motifs</th>{% endif %}</tr>
+          <tr><td class='genetd' id='genetd'>{{gene.name}}</td> <td class='genetd' id='genetd'>{{gene.description}}</td> <td class='genetd' id='genetd'>{{gene.chromosome}}</td> <td class='genetd' id='genetd'>{{gene.orientation}}</td><td class='genetd' id='genetd'>{{gene.start_promoter}} - {{gene.stop_promoter}}</td> <td class='genetd' id='genetd'>{{gene.tss}}</td>{% if motifs|length > 0 %} <td class='genetd' id='genetd'>{% for motif in motifs %}<a href='/searchtf?searchterm={{motif}}'>{{motif}}</a></br> {% endfor %}</td>{% endif %}</tr>
+  </table></center>
 
-  <h2>Transcription Binding Sites</h2>
+  <h2>Transcription Factor Binding Sites</h2>
   <div>&nbsp;</div>
-  <a href="/genetfbs_csv/{{gene.name}}">Download TF Binding Sites</a>
+  <a href="/genetfbs_csv/{{gene.name}}">Download all TFBS in the {{gene.hgnc}} promoter</a>
   <div>&nbsp;</div>
 
   <table id="tfbs">
     <thead>
       <tr>
-        <th>Motif</th><th>Strand</th><th>Location</th><th>p-value</th>
-        <th>Match Sequence</th>
+          <th>Motif</th><th>Source</th><th>Strand</th><th>Start</th><th>Stop</th>
+          <th>PValue</th><th>Match</br>Sequence</th><th>Overlap w/</br>Footprints</th>
       </tr>
     </thead>
     <tbody>
       {% for tfbs in gene.tfbs_set.all %}
       <tr>
-        <td>{{tfbs.motif.name}}<br>({{tfbs.motif.source_database.name}})
-        </td>
+        <td><a href="/searchtf?searchterm={{tfbs.motif.name}}">{{tfbs.motif.name}}</a></td>
+        <td>{{tfbs.motif.source_database.name}}</td>
         <td>{{tfbs.orientation}}</td>
-        <td>{{tfbs.start}}-{{tfbs.stop}}</td>
-        <td>{{tfbs.p_value|format_scientific}}</td>
+        <td>{{tfbs.start}}</td>
+        <td>{{tfbs.stop}}</td>
+        <td>{{tfbs.p_value|stringformat:".1E"}}</td>
         <td>{{tfbs.match_sequence}}</td>
+        <td>{{tfbs.overlap_with_footprints}}</td>
       </tr>
       {% endfor %}
     </tbody>

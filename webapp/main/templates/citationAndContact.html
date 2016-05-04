@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}TFBS - Home{% endblock %}
+{% block head %}{{ block.super }}
+    <script type="text/javascript">
+      function tfAutocomplete() {
+        $('#term').autocomplete({
+          source: '/tfcompletions',
+          minLength: 2
+        });
+      }
+      function geneAutocomplete() {
+        $('#term').autocomplete({
+          source: '/genecompletions',
+          minLength: 2
+        });
+      }
+      $(document).ready(function() {
+        $('#stype').change(function() {
+          var stype = $(this).val();
+          if (stype == 'tf') {
+            tfAutocomplete();
+            $('#searchform').attr('action', 'searchtf');
+          } else {
+            geneAutocomplete();
+            $('#searchform').attr('action', 'searchgene');
+          }
+        });
+        tfAutocomplete();
+      });
+    </script>{% endblock %}
+    {% block content %}
+    <center><h2>Citation</h2></center>
+    <p align='Center'>Citation - In process.</p>
+    <center><h2>Supporting References</h2></center>
+    <ul align='left'>
+        <b>Motif Repositories</b>
+        <li>JASPAR - <a href='http://www.ncbi.nlm.nih.gov/pubmed/24194598'>Mathelier et al., 2014</a></li>
+        <li>SELEX - <a href='http://www.ncbi.nlm.nih.gov/pubmed/23332764'>Jolma et al., 2013</a></li>
+        <li>TRANSFAC - <a href='http://www.ncbi.nlm.nih.gov/pubmed/16381825'>Matys et al., 2006</a></li>
+        <li>UniPROBE - <a href='http://www.ncbi.nlm.nih.gov/pubmed/18842628'>Newburger and Bulyk, 2009</a></li>
+        </br>
+        <b>ENCODE Data</b>
+        <li>ENCODE Digital Genomic Footprinting - <a href='http://www.ncbi.nlm.nih.gov/pubmed/22955618'>Neph et al., 2012</a></li>
+        <li>ENCODE ChIP-seq data - <a href='http://www.ncbi.nlm.nih.gov/pubmed/23203885'>Wang et al., 2012</a></li>
+    </ul>
+    <center><h2>Contact</h2></center>
+    <p align='left'>The transcription factor target gene database was developed at the <a href='http://www.systemsbiology.org'>Institute for Systems Biology</a> by Chris Plaisier in Nitin Baliga's lab. Feel free to contact us at: </p>
+    <ul align='left'>
+        <li><a href='mailto:cplaisier@systemsbiology.org'>cplaisier at systemsbiology dot org</a></li>
+        <li><a href='mailto:nbaliga@systemsbiology.org'>nbaliga at systemsbiology dot org</a></li>
+    </ul>
+    {% endblock %}

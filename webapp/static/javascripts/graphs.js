@@ -9,8 +9,8 @@ if (!nwpgraphs) {
          var values = histData.values;
          // A formatter for counts.
          var formatCount = d3.format(",.0f");
-         var margin = {top: 10, right: 10, bottom: 30, left: 30},
-         width = 500 - margin.left - margin.right,
+         var margin = {top: 10, right: 10, bottom: 50, left: 55},
+         width = 300 - margin.left - margin.right,
          height = 200 - margin.top - margin.bottom;
 
          // Generate a histogram using twenty uniformly-spaced bins.
@@ -26,7 +26,8 @@ if (!nwpgraphs) {
          var barWidth = data.length >= 2 ? x(data[1].x) - x(data[0].x) : 5;
          var xAxis = d3.svg.axis()
              .scale(x)
-             .orient("bottom");
+             .orient("bottom")
+             .ticks(5);
          var yAxis = d3.svg.axis()
              .scale(y)
              .orient("left");
@@ -48,12 +49,34 @@ if (!nwpgraphs) {
 
          svg.append("g")
              .attr("class", "x axis")
-             .attr("transform", "translate(0, " + height + ")")
+             .style("font-size", "85%")
+             .attr("transform", "translate(0," + height + ")")
              .call(xAxis);
 
+         svg.append("text")      // text label for the x axis
+             .attr("x", width / 2 )
+             .attr("y",  -5 + height + margin.bottom)
+             .style("text-anchor", "middle")
+             .style("font-size", "125%")
+             .style("font-weight", "bold")
+             .text("Position Relative to TSS (bp)");
+
          svg.append("g")
+             .style("font-size", "85%")
              .attr("class", "y axis")
              .call(yAxis);
+
+         svg.append("text")
+             .attr("transform", "rotate(-90)")
+             .attr("y", 0 - margin.left)
+             .attr("x",0 - (height / 2))
+             .attr("dy", "1em")
+             .style("text-anchor", "middle")
+             .style("font-size", "125%")
+             .style("font-weight", "bold")
+             .text("Frequency");
+        
+         
 
      };
 }());

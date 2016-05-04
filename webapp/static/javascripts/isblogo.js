@@ -44,8 +44,8 @@ if (!isblogo) {
     };
     DEFAULT_OPTIONS = {
         type: 'canvas',
-        width: 400,
-        height: 300,
+        width: 300,
+        height: 200,
         glyphStyle: '20pt Helvetica'
     };
     MEASURE_CANVAS = document.createElement('canvas');
@@ -183,9 +183,11 @@ if (!isblogo) {
 */
     function drawLabelsY(context, pssm, x0, y0, yHeight) {
         var i, label, x = x0, numBits = Math.ceil(log(pssm.alphabet.length, 2)), ydist = (yHeight - 10) / numBits, y = y0 - ydist;
-        context.font = '12pt Arial';
-        context.fillText('bits', x + 10, MARGIN_TOP - 5);
+        context.font = 'bold 12pt Arial';
+        
+        context.fillText('Bits', x + 10, MARGIN_TOP - 5);
 
+        context.font = '12pt Arial';
         for (i = 1; i <= numBits; i += 1) {
             label = i.toString();
             context.fillText(label, x, y);
@@ -263,7 +265,7 @@ if (!isblogo) {
         canvas.id = id;
         canvas.setAttribute('width', options.width);
         canvas.setAttribute('height', options.height);
-        canvas.setAttribute('style', 'border: 1px solid black');
+        //canvas.setAttribute('style', 'border: 1px solid black');
         elem = document.getElementById(id);
         elem.parentNode.replaceChild(canvas, elem);
         drawScale(canvas, pssm);

@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.db.models import Count
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 
 from models import *
 import re
@@ -120,6 +121,12 @@ def index(request):
     num_tfbs = TFBS.objects.count()
     return render_to_response('index.html', locals())
 
+def notFound(request):
+    badName = request.GET.get('badName', '')
+    num_genes = Gene.objects.count()
+    num_motifs = Motif.objects.count()
+    num_tfbs = TFBS.objects.count()
+    return render_to_response('index.html', locals())
 
 def jbrowse(request):
     return render_to_response('jbrowse.html', locals())
@@ -165,26 +172,26 @@ def view_tf(request, tfname):
         return result
 
     motifs = Motif.objects.filter(name=tfname)
-    if len(motifs) > 0:
-        motif = motifs[0]
-        tfbs = TFBS.objects.filter(motif__name=tfname).values(
-            'gene__name',
-            'gene__chromosome',
-            'gene__orientation',
-            'gene__start_promoter',
-            'gene__stop_promoter',
-            'gene__tss',
-            'start', 'stop').annotate(num_sites=Count('motif'))
-    else:
-        tfbs = []
+    if len(motifs)==0:
+        return HttpResponseRedirect('/notFound?badName='+tfname)
+    tfbs_data = []
+    motif = motifs[0]
+    gene = Gene.objects.filter(motifs__name=motif.name).all()[0].hgnc
+    # Compile based on genes
+    tfbs = {}
+    params = []
+    for t1 in TFBS.objects.filter(motif__name=tfname):
+        if not t1.gene.name in tfbs:
+            tmp = GeneSynonyms.objects.filter(gene__name=t1.gene.name).filter(synonym_type='hgnc')
+            symbol = '~'
+            if len(tmp)>0:
+                symbol = tmp[0].name
+            tfbs[t1.gene.name] = { 'symbol':symbol, 'entrez':t1.gene.name, 'num_sites':1, 'chromosome':t1.gene.chromosome, 'strand':t1.gene.orientation, 'start':t1.gene.start_promoter, 'stop':t1.gene.stop_promoter, 'tss':t1.gene.tss }
+        else:
+            tfbs[t1.gene.name]['num_sites'] += 1
+        params.append((t1.gene.name, t1.gene.orientation, t1.gene.tss, t1.gene.start_promoter, t1.gene.stop_promoter, t1.start, t1.stop))
     num_buckets = 30
-    tfbs_data = [(t['gene__name'], t['gene__chromosome'], t['gene__orientation'],
-                  t['gene__start_promoter'], t['gene__stop_promoter'],
-                  t['gene__tss'], t['num_sites']) for t in tfbs]
-
-    params = [(t['gene__name'], t['gene__orientation'], t['gene__tss'],
-               t['gene__start_promoter'], t['gene__stop_promoter'],
-               t['start'], t['stop']) for t in tfbs]
+    tfbs_data = tfbs.values()
 
     dists = sorted(compute_relpos(params))
     #dists.reverse()
@@ -193,7 +200,7 @@ def view_tf(request, tfname):
     max_dist = max(dists) if len(dists) > 0 else 0
     histogram_data = HistogramData(min_dist, max_dist, 0, dists)
     return render_to_response('tf_results.html', locals())
-    
+
 
 def search_tf(request):
     searchterm = request.GET.get('searchterm', '')
@@ -207,8 +214,11 @@ def view_gene(request, genename):
     except:
         genes = Gene.objects.filter(genesynonyms__name=genename)
 
-    if genes.count() > 0:
+    if len(genes) > 0:
         gene = genes[0]
+    else:
+        return HttpResponseRedirect('/notFound?badName='+genename)
+    motifs = [motif.name for motif in gene.motifs.all() if len(TFBS.objects.filter(motif=motif).all())>0]
     return render_to_response('gene_results.html', locals())
 
 
@@ -283,4 +293,16 @@ def genetfbs_csv(request, genename):
     resp = HttpResponse(result, content_type='application/csv')
     resp['Content-Disposition'] = 'attachment; filename="%s_tfbs.tsv"' % genename
     return resp
+
+def constructionValidation(request):
+    return render_to_response('constructionValidation.html', locals())
+
+def optimalPromoter(request):
+    return render_to_response('optimalPromoterSize.html', locals())
+
+def download(request):
+    return render_to_response('download.html', locals())
+
+def citationAndContact(request):
+    return render_to_response('citationAndContact.html', locals())
 

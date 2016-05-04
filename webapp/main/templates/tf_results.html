@@ -35,31 +35,35 @@
 {% endblock %}
 {% block content %}
   {% if tfbs %}
-  <h1>Transcription Factor {{motif.name}}</h1>
-  <h2>Motif</h2>
-  <div id="canvas_0"></div>
-  <h2>Histogram (Relative distances to TSS)</h2>
-  <div id="graph_0"></div>
+  <center><h2>{{gene}} target genes for motif:</br>{{motif.name}}</h2>
+      <p>The {{motif.name}} motif was discovered for {{gene}} and was found in the {{motif.source_database.name}} repository.</p>
+  <table>
+      <tr>
+          <td align='center'><h2>{{gene}} motif sequence logo</h2></br><div id="canvas_0"></div></td>
+          <td align='center'><h2>{{gene}} motif positions</h2></br><div id="graph_0"></div></td>
+      </tr>
+  </table>
   <div>&nbsp;</div>
-  <a href="/tfgenes_csv/{{motif.name}}">Download TF Binding Sites</a>
-  <div>&nbsp;</div>
+  <h2>{{gene}} target gene list</h2></br>
+  <a href="/tfgenes_csv/{{motif.name}}">Download all {{gene}} TF binding sites</a>
   <table id="genelist">
     <thead>
-    <tr><th>Entrez Id</th><th>Chromosome</th><th>Strand</th><th>Promoter Location</th><th>TSS</th><th># sites</th></tr>
+        <tr><th>Gene</th><th>Entrez</th><th># of Sites</th><th>Strand</th><th>Chromosome</th><th>Promoter Location</th><th>TSS</th></tr>
     </thead>
     <tbody>
     {% for t in tfbs_data %}
     <tr>
-      <td><a href="/viewgene/{{t.gene__name}}">{{t.0}}</a></td>
-      <td>{{t.1}}</td>
-      <td>{{t.2}}</td>
-      <td>{{t.3}}-{{t.4}}</td>
-      <td>{{t.5}}</td>
-      <td>{{t.6}}</td>
+      <td>{{t.symbol}}</a></td>
+      <td><a href="/viewgene/{{t.entrez}}">{{t.entrez}}</a></td>
+      <td>{{t.num_sites}}</td>
+      <td>{{t.chromosome}}</td>
+      <td>{{t.strand}}</td>
+      <td>{{t.start}}-{{t.stop}}</td>
+      <td>{{t.tss}}</td>
     </tr>
     {% endfor %}
     </tbody>
-  </table>
+  </table></center>
   {% else %}
   No TF found for '{{tfname}}'
   {% endif %}
