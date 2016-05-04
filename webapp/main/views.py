@@ -219,7 +219,7 @@ def search_gene(request):
 def tf_completions(request):
     searchterm = request.GET.get('term', '')
     data = [t.motif.name
-            for t in TFBS.objects.filter(motif__name__istartswith=searchterm).distinct('motif__name')]
+            for t in TFBS.objects.filter(motif__name__icontains=searchterm).distinct('motif__name')]
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 # Everything that starts with ENSGxxxx will naturally return tons of results
@@ -234,7 +234,7 @@ def gene_completions(request):
         data = [g.name for g in genes]
     except:
         if not ENSG_PAT.match(searchterm) or len(searchterm) > 10:
-            synonyms = GeneSynonyms.objects.filter(name__istartswith=searchterm)
+            synonyms = GeneSynonyms.objects.filter(name__icontains=searchterm)
             data = [s.name for s in synonyms]
         else:
             data = []
