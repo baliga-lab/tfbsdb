@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import argparse
 import sys
 import psycopg2
@@ -8,8 +8,7 @@ import os, os.path
 if __name__ == '__main__':
     description = """gene-motif connect (c) 2013, Institute for Systems Biology"""
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--connectfile', help='gene-motif file',
-                        required=True)
+    parser.add_argument('connectfile', help='gene-motif file')
     args = parser.parse_args()
     conn = psycopg2.connect("dbname=tfbs user=dj_ango password=django")
     with open(args.connectfile) as infile:
@@ -35,13 +34,15 @@ if __name__ == '__main__':
             gene_id = gene_map[entrez_id]
             motif_id = motif_map[motif_name]
             print "insert gene: %d -> motif: %d" % (gene_id, motif_id)
-            cursor.execute("""insert into main_gene_motifs
+            cursor.execute("select count(*) from main_gene_motifs where gene_id=%s and motif_id=%s",
+                           [gene_id, motif_id])
+            if cursor.fetchone()[0] == 0:
+                cursor.execute("""insert into main_gene_motifs
 (gene_id, motif_id) values (%s, %s)""", [gene_id, motif_id])
-        """
-        if motif_name not in motif_map.keys():
-            print "motif not found: ", motif_name
-        if entrez_id not in gene_map.keys():
-            print "gene not found: ", entrez_id
-        """
+        else:
+            if motif_name not in motif_map.keys():
+                print "motif not found: ", motif_name
+            if entrez_id not in gene_map.keys():
+                print "gene not found: ", entrez_id
     conn.commit()
     conn.close()

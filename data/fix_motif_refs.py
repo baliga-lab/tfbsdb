@@ -41,13 +41,46 @@ class MotifInstance:
     def __repr__(self):
         return str(self)
 
-def process_motif(cursor, genehitdir, gene_map, motif_map, motif_name):
+
+def make_range(value):
+    comps = value.split('-')
+    return (int(comps[0]), int(comps[1]))
+
+
+def make_hit(line):
+    try:
+        comps = line.strip().split(',')
+        num_motifs = int(comps[3])
+
+        mlocs = [make_range(r) for r in comps[4].split(';')]
+        mors = comps[5].split(';')
+        mpvals = comps[6].split(';')
+        mseqs = comps[7].split(';')
+        overlaps = map(int, comps[8].split(';'))
+
+        return {
+            'entrezid': comps[0],
+            'promoter': make_range(comps[1]),
+            'chromosome': comps[2],
+            'motif_instances': [MotifInstance(mors[i], mlocs[i],
+                                              mpvals[i], mseqs[i],
+                                              overlaps[i])
+                                for i in range(num_motifs)]
+            }
+    except:
+        print "error in line: '%s'" % line
+        raise
+
+
+def process_motif(cursor, path, motif_name, gene_map, motif_map):
     print "processing motif: ", motif_name, "..."
     motif_id = motif_map[motif_name]
-    with open(os.path.join(genehitdir, filename)) as infile:
+    with open(path) as infile:
         header = infile.readline()
+        num_processed = 0
         for line in infile:
-            if len(line.strip()) > 0:
+            line = line.strip()
+            if len(line) > 0:
                 hit = make_hit(line)
                 entrez_id = hit['entrezid']
                 if entrez_id not in gene_map:
@@ -65,37 +98,12 @@ def process_motif(cursor, genehitdir, gene_map, motif_map, motif_name):
 main_tfbs (gene_id, motif_id, start, stop, orientation,
 p_value, match_sequence, overlap_with_footprints) values (%s, %s, %s, %s, %s, %s, %s, %s)
 """, (gene_id, motif_id, i.location[0], i.location[1], i.orientation, i.pvalue, i.seqmatch, i.overlap))
+                num_processed += 1
+        if num_processed == 0:
+            print "motif '%s' was ignored - no hits" % (motif_name)
+
 
 def process_genehits(conn, genehitdir, gene_map, motif_map):
-    def make_range(value):
-        comps = value.split('-')
-        return (int(comps[0]), int(comps[1]))
-
-    def make_hit(line):
-        try:
-            comps = line.strip().split(',')
-            num_motifs = int(comps[3])
-
-            mlocs = [make_range(r) for r in comps[4].split(';')]
-            mors = comps[5].split(';')
-            mpvals = comps[6].split(';')
-            mseqs = comps[7].split(';')
-            overlaps = map(int, comps[8].split(';'))
-
-            return {
-                'entrezid': comps[0],
-                'promoter': make_range(comps[1]),
-                'chromosome': comps[2],
-                'motif_instances': [MotifInstance(mors[i], mlocs[i],
-                                                  mpvals[i], mseqs[i],
-                                                  overlaps[i])
-                                    for i in range(num_motifs)]
-                }
-        except:
-            print "error in line: '%s'" % line
-            raise
-
-    tfbs = []
     cursor = conn.cursor()
     for filename in os.listdir(genehitdir):
         motif_name = filename.replace('fullGenome_motifHits_', '').replace(
@@ -108,7 +116,6 @@ def process_genehits(conn, genehitdir, gene_map, motif_map):
             print "not found: ", motif_name
 
     print "\ndone."
-    #entrez_ids = set([instance['entrezid'] for instance in tfbs])
 
 
 if __name__ == '__main__':
@@ -123,15 +130,33 @@ if __name__ == '__main__':
     gene_map = { entrez_id: id
                  for id, entrez_id in cursor.fetchall()}
 
-    colon_names = {name.replace('::', '_').replace('$', '_') for name in COLON_NAMES}
-    cursor.execute('select id, name from main_motif')
-    motif_map = { name: id
-                 for id, name in cursor.fetchall()}
-    for n in colon_names:
-        if n not in motif_map:
-            print "COLON NAME NOT FOUND: ", n
+    cursor.execute('select id, name from main_motif where id not in (select distinct motif_id from main_tfbs)')
+    missing_motif_map = { name: id
+                          for id, name in cursor.fetchall()}
+    print "missing motif references: ", len(missing_motif_map)
 
-    process_genehits(conn, args.genehitdir, gene_map, motif_map)
-    conn.commit()
+    colon_names = {name.replace('::', '_').replace('$', '_'): name.replace('::', '').replace('$', '_')
+                   for name in COLON_NAMES}
+
+    # Try to find the missing motif name in the hit directory
+    for motif_name in missing_motif_map.keys():
+        path = os.path.join(args.genehitdir, 'fullGenome_motifHits_%s.csv' % motif_name)
+        if os.path.exists(path):
+            process_motif(cursor, path, motif_name, gene_map, missing_motif_map)
+            conn.commit()
+            #print "make motif: ", motif_name
+        else:
+            if motif_name in colon_names:
+                alt_name = colon_names[motif_name]
+                #print "not found (but a colon name): ", path
+                path = os.path.join(args.genehitdir, 'fullGenome_motifHits_%s.csv' % alt_name)
+                if os.path.exists(path):
+                    process_motif(cursor, path, motif_name, gene_map, missing_motif_map)
+                    conn.commit()
+                    #print "make motif: ", motif_name
+                else:
+                    print "SCREWED UP: ", path
+            else:
+                print "not found (and not a colon name): ", path
+
     conn.close()
-
