@@ -176,7 +176,11 @@ def view_tf(request, tfname):
         return HttpResponseRedirect('/notFound?badName='+tfname)
     tfbs_data = []
     motif = motifs[0]
-    gene = Gene.objects.filter(motifs__name=motif.name).all()[0].hgnc
+    genes = Gene.objects.filter(motifs__name=motif.name).all()
+    gene = genes[0].hgnc()
+    if len(genes) > 1:
+        gene += '/' + genes[1].hgnc()
+
     # Compile based on genes
     tfbs = {}
     params = []
