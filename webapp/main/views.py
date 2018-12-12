@@ -177,9 +177,13 @@ def view_tf(request, tfname):
     tfbs_data = []
     motif = motifs[0]
     genes = Gene.objects.filter(motifs__name=motif.name).all()
-    gene = genes[0].hgnc()
-    if len(genes) > 1:
-        gene += '/' + genes[1].hgnc()
+
+    # if genes is empty
+    gene = ""
+    if len(genes) > 0:
+        gene = genes[0].hgnc()
+        if len(genes) > 1:
+            gene += '/' + genes[1].hgnc()
 
     # Compile based on genes
     tfbs = {}
